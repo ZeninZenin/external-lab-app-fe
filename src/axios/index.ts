@@ -1,3 +1,3 @@
-import { Axios } from 'axios';
+import Axios from 'axios';
 
-export const axios = new Axios({ baseURL: process.env.REACT_APP_BACK_HOST });
+export const axios = Axios.create({ baseURL: process.env.REACT_APP_BACK_HOST });
