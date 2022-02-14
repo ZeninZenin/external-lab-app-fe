@@ -1,17 +1,20 @@
 import React, { FC, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate } from 'react-router';
 import { axios } from '../../../axios';
 import { AxiosError } from 'axios';
+import { useSearchParams } from 'react-router-dom';
 
 export const GithubOauthCallbackPage: FC = () => {
-  const { code } = useParams<'code'>();
+  const [searchParams] = useSearchParams();
   const [error, setError] = useState<AxiosError>();
   const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await axios.post<string>('auth/github', { code });
+        const { data } = await axios.post<string>('auth/github', {
+          code: searchParams.get('code'),
+        });
         const token = data.split('&')[0].split('=')[1];
 
         localStorage.setItem('token', token);
@@ -23,7 +26,7 @@ export const GithubOauthCallbackPage: FC = () => {
   }, []);
 
   if (error) {
-    return <p>{error}</p>;
+    return <p>{error.toString()}</p>;
   }
 
   return <p>Loading...</p>;
