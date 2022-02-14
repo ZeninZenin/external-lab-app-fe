@@ -16,8 +16,7 @@ export const GithubOauthCallbackPage: FC = () => {
           code: searchParams.get('code'),
         });
 
-        const token = data.split('&')[0].split('=')[1];
-        localStorage.setItem('token', token);
+        localStorage.setItem('token', data);
         navigate('/');
       } catch (err) {
         setError(err as AxiosError);
