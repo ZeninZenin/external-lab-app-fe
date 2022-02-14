@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { GithubOauthCallbackPage } from '../../../pages';
 
 export const AppRouter: FC = () => (
   <BrowserRouter>
@@ -14,7 +15,7 @@ export const AppRouter: FC = () => (
         }
       />
       <Route path="oauth">
-        <Route path="github/callback" element={<button>OK</button>} />
+        <Route path="github/callback" element={<GithubOauthCallbackPage />} />
       </Route>
       <Route path="*" element={<h1>There&apos;s nothing here!</h1>} />
     </Routes>
