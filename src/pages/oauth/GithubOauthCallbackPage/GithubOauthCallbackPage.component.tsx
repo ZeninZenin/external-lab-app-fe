@@ -15,8 +15,8 @@ export const GithubOauthCallbackPage: FC = () => {
         const { data } = await axios.post<string>('auth/github', {
           code: searchParams.get('code'),
         });
-        const token = data.split('&')[0].split('=')[1];
 
+        const token = data.split('&')[0].split('=')[1];
         localStorage.setItem('token', token);
         navigate('/');
       } catch (err) {
