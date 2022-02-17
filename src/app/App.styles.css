@@ -6,4 +6,17 @@
   padding: 40px;
 }
 
+.app-header-content {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.profile-text.ant-typography {
+  color: #fff;
+  font-size: 24px;
+  padding-left: 12px;
+}
+
 
