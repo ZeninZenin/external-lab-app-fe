@@ -5,11 +5,13 @@ import { App } from './app/App.component';
 import reportWebVitals from './reportWebVitals';
 import 'antd/dist/antd.css';
 import { AppContextProvider } from './context';
+import { AxiosInterceptors } from './axios';
 
 ReactDOM.render(
   <React.StrictMode>
     <AppContextProvider>
       <App />
+      <AxiosInterceptors />
     </AppContextProvider>
   </React.StrictMode>,
   document.getElementById('root'),
