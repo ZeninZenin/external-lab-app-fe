@@ -7,11 +7,14 @@ import { Space, Spin } from 'antd';
 import './GithubOauthCallbackPage.styles.css';
 import Title from 'antd/es/typography/Title';
 import Text from 'antd/es/typography/Text';
+import { useUserContext } from '../../../context';
+import { getJWTPayload } from '../../../utils';
 
 export const GithubOauthCallbackPage: FC = () => {
   const [searchParams] = useSearchParams();
   const [error, setError] = useState<AxiosError>();
   const navigate = useNavigate();
+  const { setUserContextValue } = useUserContext();
 
   useEffect(() => {
     (async () => {
@@ -21,6 +24,11 @@ export const GithubOauthCallbackPage: FC = () => {
         });
 
         localStorage.setItem('token', data);
+
+        setUserContextValue(prevState => ({
+          ...prevState,
+          user: getJWTPayload(data),
+        }));
         navigate('/');
       } catch (err) {
         setError(err as AxiosError);
