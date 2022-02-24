@@ -1,18 +1,20 @@
 import React, { FC } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Title from 'antd/es/typography/Title';
-import { GithubOauthCallbackPage } from '../../pages';
+import { GithubOauthCallbackPage, ProfilePage } from '../../pages';
 import { LoginRedirect } from './LoginRedirect';
+import { NotFoundPlaceholder } from './NotFoundPlaceholder';
 
 export const AppRouter: FC = () => (
-  <BrowserRouter>
+  <>
     <Routes>
       <Route path="/" element={<Title>Home</Title>} />
+      <Route path="/profile" element={<ProfilePage />} />
       <Route path="oauth">
         <Route path="github/callback" element={<GithubOauthCallbackPage />} />
       </Route>
-      <Route path="*" element={<h1>There&apos;s nothing here!</h1>} />
+      <Route path="*" element={<NotFoundPlaceholder />} />
     </Routes>
     <LoginRedirect />
-  </BrowserRouter>
+  </>
 );
