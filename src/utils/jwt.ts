@@ -22,7 +22,8 @@ export const getJWTPayload = (token: string | null): ReturnType | null => {
         .join(''),
     );
 
-    return JSON.parse(jsonPayload);
+    const parsedPayload = JSON.parse(jsonPayload);
+    return { ...JSON.parse(jsonPayload), user: JSON.parse(parsedPayload.user) };
   } catch {
     return null;
   }
