@@ -3,3 +3,5 @@ export { Profile } from './Profile';
 export { SideMenu } from './SideMenu';
 export { NotFoundPlaceholder } from './NotFoundPlaceholder';
 export * from './Box';
+export * from './UpdateProfileModal';
+export * from './PrivateRoute';
