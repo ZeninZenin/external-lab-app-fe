@@ -1,7 +1,9 @@
 import { User } from '../types';
 
-interface ReturnType extends User {
+interface ReturnType {
   exp: number;
+  iat: number;
+  user: User;
 }
 
 export const getJWTPayload = (token: string | null): ReturnType | null => {

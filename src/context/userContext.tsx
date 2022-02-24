@@ -13,7 +13,7 @@ import { getJWTPayload } from '../utils';
 
 interface UserContextValue {
   userContextValue: {
-    user: User | null;
+    user: User | null | undefined;
   };
   setUserContextValue: Dispatch<
     SetStateAction<UserContextValue['userContextValue']>
@@ -31,7 +31,7 @@ export const UserContextProvider: FC = ({ children }) => {
   const [userContextValue, setUserContextValue] = useState<
     UserContextValue['userContextValue']
   >({
-    user: getJWTPayload(localStorage.getItem('token')),
+    user: getJWTPayload(localStorage.getItem('token'))?.user,
   });
 
   const contextValue = useMemo<UserContextValue>(

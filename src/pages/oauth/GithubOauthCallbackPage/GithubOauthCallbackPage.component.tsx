@@ -27,7 +27,7 @@ export const GithubOauthCallbackPage: FC = () => {
 
         setUserContextValue(prevState => ({
           ...prevState,
-          user: getJWTPayload(data),
+          user: getJWTPayload(data)?.user,
         }));
         navigate('/');
       } catch (err) {
