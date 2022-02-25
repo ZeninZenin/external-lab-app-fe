@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import Title from 'antd/es/typography/Title';
 import { GithubOauthCallbackPage, ProfilePage } from '../../pages';
 import { LoginRedirect } from './LoginRedirect';
 import { NotFoundPlaceholder } from './NotFoundPlaceholder';
