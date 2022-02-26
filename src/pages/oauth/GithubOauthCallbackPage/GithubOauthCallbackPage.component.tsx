@@ -29,7 +29,7 @@ export const GithubOauthCallbackPage: FC = () => {
           ...prevState,
           user: getJWTPayload(data)?.user,
         }));
-        navigate('/');
+        navigate('/guest');
       } catch (err) {
         setError(err as AxiosError);
       }
