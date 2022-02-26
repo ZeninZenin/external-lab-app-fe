@@ -1,20 +1,16 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Avatar, Col, Progress, Row, Typography } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { Box, Flex } from '../../app/components';
+import { Box, Flex } from './Box';
 import { useQuery } from 'react-query';
 import { axios } from 'src/axios';
-import { useUserContext } from '../../context';
 import { Score } from '../../types/score';
 
-import { ListLoader } from '../../app/components/ListLoader';
-import { ProfileTaskCard } from './components/ProfileTaskCard';
+import { ListLoader } from './ListLoader';
+import { ProfileTaskCard } from './ProfileTaskCard';
+import { User } from 'src/types';
 
-export const ProfilePage = () => {
-  const {
-    userContextValue: { user },
-  } = useUserContext();
-
+export const ProfileView: FC<{ user?: User | null }> = ({ user }) => {
   const { data, isLoading, refetch } = useQuery(
     'user-scores',
     async () => (await axios.get<Score[]>(`/users/${user?.login}/scores`)).data,
@@ -27,7 +23,6 @@ export const ProfilePage = () => {
     <Row>
       <Col span={18} push={6}>
         <Flex flexDirection="column">
-          <Box height={24} />
           {isLoading ? (
             <ListLoader />
           ) : (

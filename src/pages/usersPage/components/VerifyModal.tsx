@@ -22,7 +22,7 @@ export const VerifyModal: FC<{
     axios.put('/users/verify', {
       login: user.login,
       roles: 'student',
-      trainer: trainer?._id,
+      trainer: trainer,
     }),
   );
   return (

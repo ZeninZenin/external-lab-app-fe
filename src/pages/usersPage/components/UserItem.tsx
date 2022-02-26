@@ -3,19 +3,20 @@ import { Box } from '../../../app/components';
 import { Button, Card } from 'antd';
 import { VerifyModal } from './VerifyModal';
 import { User } from '../../../types';
+import { Link } from 'react-router-dom';
 
-export const UserItem: FC<{ user: User; refetchList(): void }> = ({
-  user,
-  refetchList,
-}) => {
+export const UserItem: FC<{
+  user: User & { trainer: User };
+  refetchList(): void;
+}> = ({ user, refetchList }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   return (
     <>
       <Card
         title={
-          <Box>
+          <Link to={`/profile/${user.login}`}>
             {user.firstName} {user.lastName}
-          </Box>
+          </Link>
         }
         extra={
           user.roles.includes('guest') && (

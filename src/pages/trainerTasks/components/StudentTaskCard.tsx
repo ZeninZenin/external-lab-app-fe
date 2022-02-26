@@ -7,7 +7,7 @@ import { Box, Flex } from '../../../app/components';
 import { useMutation } from 'react-query';
 import { axios } from 'src/axios';
 
-export const ProfileTaskCard: FC<{ score: Score; refetchList(): void }> = ({
+export const StudentTaskCard: FC<{ score: Score; refetchList(): void }> = ({
   score,
   refetchList,
 }) => {
@@ -56,7 +56,6 @@ export const ProfileTaskCard: FC<{ score: Score; refetchList(): void }> = ({
             )
           }
         >
-          <p>{task._id}</p>
           <p>{task?.description}</p>
           <Badge
             status="error"

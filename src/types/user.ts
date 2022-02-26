@@ -9,6 +9,6 @@ export interface User {
   firstName?: string;
   lastName?: string;
   roles: UserRole[];
-  trainer: User;
+  trainer: string;
   scores: string[];
 }
