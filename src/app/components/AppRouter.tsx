@@ -5,6 +5,7 @@ import { LoginRedirect } from './LoginRedirect';
 import { NotFoundPlaceholder } from './NotFoundPlaceholder';
 import { GuestPage } from '../../pages/GuestPage';
 import { PrivateRoute } from './PrivateRoute';
+import { TaskManagement } from '../../pages';
 
 export const AppRouter: FC = () => (
   <>
@@ -13,8 +14,16 @@ export const AppRouter: FC = () => (
       <Route
         path="/profile"
         element={
-          <PrivateRoute roles={['student']}>
+          <PrivateRoute roles={['student', 'trainer']}>
             <ProfilePage />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/tasks-management"
+        element={
+          <PrivateRoute roles={['admin']}>
+            <TaskManagement />
           </PrivateRoute>
         }
       />
