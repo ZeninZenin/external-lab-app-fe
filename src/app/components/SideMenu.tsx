@@ -2,6 +2,7 @@ import React from 'react';
 import {
   CalendarOutlined,
   UnorderedListOutlined,
+  UsergroupAddOutlined,
   UserOutlined,
 } from '@ant-design/icons';
 import { Menu } from 'antd';
@@ -36,16 +37,21 @@ export const SideMenu = () => {
         <LogoStyled />
       </LogoContainer>
       {!isGuest && (
-        <Menu.Item key="1" icon={<UserOutlined />}>
+        <Menu.Item icon={<UserOutlined />}>
           <Link to={'/profile'}>Profile</Link>
         </Menu.Item>
       )}
-      <Menu.Item key="2" icon={<CalendarOutlined />}>
+      <Menu.Item icon={<CalendarOutlined />}>
         <Link to={'/calendar'}>Calendar</Link>
       </Menu.Item>
       {isAdmin && (
-        <Menu.Item key="2" icon={<UnorderedListOutlined />}>
+        <Menu.Item icon={<UnorderedListOutlined />}>
           <Link to={'/task-management'}>Tasks management</Link>
+        </Menu.Item>
+      )}
+      {isAdmin && (
+        <Menu.Item icon={<UsergroupAddOutlined />}>
+          <Link to={'/users-list'}>Users</Link>
         </Menu.Item>
       )}
     </Menu>

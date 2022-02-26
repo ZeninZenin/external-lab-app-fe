@@ -3,9 +3,8 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { GithubOauthCallbackPage, ProfilePage } from '../../pages';
 import { LoginRedirect } from './LoginRedirect';
 import { NotFoundPlaceholder } from './NotFoundPlaceholder';
-import { GuestPage } from '../../pages/GuestPage';
 import { PrivateRoute } from './PrivateRoute';
-import { TaskManagement } from '../../pages';
+import { TaskManagement, UsersPageComponent, GuestPage } from '../../pages';
 
 export const AppRouter: FC = () => (
   <>
@@ -24,6 +23,14 @@ export const AppRouter: FC = () => (
         element={
           <PrivateRoute roles={['admin']}>
             <TaskManagement />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/users-list"
+        element={
+          <PrivateRoute roles={['admin', 'trainer']}>
+            <UsersPageComponent />
           </PrivateRoute>
         }
       />
