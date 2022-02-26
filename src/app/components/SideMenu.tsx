@@ -46,7 +46,7 @@ export const SideMenu = () => {
       </Menu.Item>
       {isAdmin && (
         <Menu.Item icon={<UnorderedListOutlined />}>
-          <Link to={'/task-management'}>Tasks management</Link>
+          <Link to={'/tasks-management'}>Tasks management</Link>
         </Menu.Item>
       )}
       {isAdmin && (
