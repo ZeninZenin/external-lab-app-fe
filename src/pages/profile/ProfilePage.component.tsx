@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Badge, Card, Col, Progress, Row, Typography } from 'antd';
+import { Avatar, Col, Progress, Row, Typography } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { Box, Flex } from '../../app/components';
 import { useQuery } from 'react-query';
@@ -27,9 +27,6 @@ export const ProfilePage = () => {
     <Row>
       <Col span={18} push={6}>
         <Flex flexDirection="column">
-          <Typography.Title level={4}>
-            Welcome back, {user?.firstName} {user?.lastName}! Here your tasks:
-          </Typography.Title>
           <Box height={24} />
           {isLoading ? (
             <ListLoader />
@@ -49,6 +46,12 @@ export const ProfilePage = () => {
           <Typography.Title level={4}>My profile</Typography.Title>
           <Flex flexDirection="column" alignItems="center" mt={24}>
             <Avatar size={120} icon={<UserOutlined />} />
+            <Box mt="4px">
+              <b>
+                {user?.firstName} {user?.lastName}
+              </b>
+            </Box>
+            <p>{user?.roles.join(', ')}</p>
             <Box mt={48} mb={12}>
               My progress
             </Box>

@@ -35,8 +35,10 @@ export const VerifyModal: FC<{
       onCancel={() => setIsVisible(false)}
       onOk={async () => {
         if (trainer) {
-          await mutate();
-          refetchList();
+          mutate(undefined, {
+            onSuccess: refetchList,
+          });
+
           setIsVisible(false);
         } else {
           message.error('Please select a mentor for student first');
