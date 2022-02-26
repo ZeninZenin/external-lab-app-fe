@@ -4,3 +4,5 @@ export interface Task {
   description: string;
   deadline: string;
 }
+
+export type TaskStatus = 'todo' | 'onReview' | 'onRevision' | 'done';

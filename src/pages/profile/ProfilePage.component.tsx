@@ -1,40 +1,47 @@
 import React from 'react';
-import {
-  Avatar,
-  Badge,
-  Card,
-  Col,
-  Progress,
-  Row,
-  Space,
-  Typography,
-} from 'antd';
+import { Avatar, Badge, Card, Col, Progress, Row, Typography } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { Box, Flex } from '../../app/components';
+import { useQuery } from 'react-query';
+import { axios } from 'src/axios';
+import { useUserContext } from '../../context';
+import { Score } from '../../types/score';
+
+import { ListLoader } from '../../app/components/ListLoader';
+import { ProfileTaskCard } from './components/ProfileTaskCard';
 
 export const ProfilePage = () => {
+  const {
+    userContextValue: { user },
+  } = useUserContext();
+
+  const { data, isLoading, refetch } = useQuery(
+    'user-scores',
+    async () => (await axios.get<Score[]>(`/users/${user?.login}/scores`)).data,
+    {
+      enabled: !!user?._id,
+    },
+  );
+
   return (
     <Row>
       <Col span={18} push={6}>
         <Flex flexDirection="column">
           <Typography.Title level={4}>
-            Welcome back, User name! Here your tasks:
+            Welcome back, {user?.firstName} {user?.lastName}! Here your tasks:
           </Typography.Title>
           <Box height={24} />
-          <Badge text="Overdue">
-            <Badge.Ribbon text="To do" color="blue">
-              <Card title="Task 1">
-                <p>Description</p>
-                <Badge status="error" text="Deadline: today" />
-              </Card>
-            </Badge.Ribbon>
-          </Badge>
-          <Box height={24} />
-          <Badge.Ribbon text="Done" color="green">
-            <Card title="Task 1">
-              <p>Description</p>
-            </Card>
-          </Badge.Ribbon>
+          {isLoading ? (
+            <ListLoader />
+          ) : (
+            <>
+              {data?.map(score => (
+                <Box key={score?._id} mb={24} width="100%" maxWidth={700}>
+                  <ProfileTaskCard score={score} refetchList={refetch} />
+                </Box>
+              ))}
+            </>
+          )}
         </Flex>
       </Col>
       <Col span={6} pull={18}>

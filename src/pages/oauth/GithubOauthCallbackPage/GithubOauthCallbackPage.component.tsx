@@ -34,7 +34,7 @@ export const GithubOauthCallbackPage: FC = () => {
         setError(err as AxiosError);
       }
     })();
-  }, []);
+  }, [navigate, searchParams, setUserContextValue]);
 
   return (
     <>

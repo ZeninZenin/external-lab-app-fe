@@ -23,7 +23,7 @@ export const AxiosInterceptors: FC = () => {
     return () => {
       axios.interceptors.request.eject(id);
     };
-  }, []);
+  }, [setUserContextValue]);
 
   useEffect(() => {
     if (isDevelopment) return;

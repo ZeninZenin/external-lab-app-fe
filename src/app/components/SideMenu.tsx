@@ -43,7 +43,7 @@ export const SideMenu = () => {
       <Menu.Item key="2" icon={<CalendarOutlined />}>
         <Link to={'/calendar'}>Calendar</Link>
       </Menu.Item>
-      {!isAdmin && (
+      {isAdmin && (
         <Menu.Item key="2" icon={<UnorderedListOutlined />}>
           <Link to={'/task-management'}>Tasks management</Link>
         </Menu.Item>
