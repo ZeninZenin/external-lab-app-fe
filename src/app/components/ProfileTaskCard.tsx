@@ -1,7 +1,16 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Score } from '../../types/score';
 import { getStatusColor, getStatusLabel } from '../../utils';
-import { Badge, Button, Card, Input, message, Spin, Typography } from 'antd';
+import {
+  Badge,
+  Button,
+  Card,
+  Input,
+  message,
+  Rate,
+  Spin,
+  Typography,
+} from 'antd';
 import moment from 'moment';
 import { Box, Flex } from './index';
 import { useMutation } from 'react-query';
@@ -11,7 +20,13 @@ export const ProfileTaskCard: FC<{ score: Score; refetchList(): void }> = ({
   score,
   refetchList,
 }) => {
-  const { status, task, pullRequestLink, student } = score || {};
+  const {
+    status,
+    task,
+    pullRequestLink,
+    student,
+    score: taskScore,
+  } = score || {};
 
   const [link, setLink] = useState('');
 
@@ -22,6 +37,14 @@ export const ProfileTaskCard: FC<{ score: Score; refetchList(): void }> = ({
       pullRequestLink: prLink,
     }),
   );
+
+  const { isLoading: isLoadingRevisionDone, mutate: revisionDone } =
+    useMutation(() =>
+      axios.put('/scores/revision-done', {
+        studentId: student,
+        taskId: task?._id,
+      }),
+    );
 
   useEffect(() => {
     if (pullRequestLink) {
@@ -40,7 +63,7 @@ export const ProfileTaskCard: FC<{ score: Score; refetchList(): void }> = ({
   };
 
   return (
-    <Spin spinning={isLoading}>
+    <Spin spinning={isLoading || isLoadingRevisionDone}>
       <Badge.Ribbon
         text={getStatusLabel(status)}
         color={getStatusColor(status)}
@@ -53,6 +76,13 @@ export const ProfileTaskCard: FC<{ score: Score; refetchList(): void }> = ({
               </a>
             ) : (
               task?.name
+            )
+          }
+          extra={
+            taskScore && (
+              <Box mr={32}>
+                <Rate allowHalf value={taskScore} disabled />
+              </Box>
             )
           }
         >
@@ -84,6 +114,21 @@ export const ProfileTaskCard: FC<{ score: Score; refetchList(): void }> = ({
                 Submit
               </Button>
             </Flex>
+          )}
+          {status === 'onRevision' && (
+            <Button
+              type="primary"
+              onClick={() =>
+                revisionDone(undefined, {
+                  onSuccess: () => {
+                    message.success('Status has been updated successfully');
+                    refetchList();
+                  },
+                })
+              }
+            >
+              Revision done
+            </Button>
           )}
         </Card>
       </Badge.Ribbon>

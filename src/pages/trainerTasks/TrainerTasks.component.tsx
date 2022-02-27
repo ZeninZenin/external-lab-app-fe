@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 import { axios } from '../../axios';
-import { Score } from '../../types/score';
+import { ScoreWithUsers } from '../../types/score';
 import { useUserContext } from '../../context';
 import { ListLoader } from '../../app/components/ListLoader';
 import { Box, Flex } from '../../app/components';
@@ -15,7 +15,8 @@ export const TrainerTasks = () => {
 
   const { data, isLoading, refetch } = useQuery(
     'trainer-tasks',
-    async () => (await axios.get<Score[]>(`/scores/trainer/${user?._id}`)).data,
+    async () =>
+      (await axios.get<ScoreWithUsers[]>(`/scores/trainer/${user?._id}`)).data,
     {
       enabled: !!user?._id,
     },

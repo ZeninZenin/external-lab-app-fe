@@ -46,12 +46,12 @@ export const SideMenu = () => {
       <Menu.Item icon={<CalendarOutlined />}>
         <Link to={'/calendar'}>Calendar</Link>
       </Menu.Item>
-      {isAdmin && (
+      {(isAdmin || isTrainer) && (
         <Menu.Item icon={<UnorderedListOutlined />}>
           <Link to={'/tasks-management'}>Tasks management</Link>
         </Menu.Item>
       )}
-      {isAdmin && (
+      {(isAdmin || isTrainer) && (
         <Menu.Item icon={<UsergroupAddOutlined />}>
           <Link to={'/users-list'}>Users</Link>
         </Menu.Item>
