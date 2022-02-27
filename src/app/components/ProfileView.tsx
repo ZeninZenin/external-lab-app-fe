@@ -43,8 +43,8 @@ export const ProfileView: FC<{ user?: User | null }> = ({ user }) => {
   const averageScore = useMemo(
     () =>
       (data?.reduce((acc, item) => acc + (item.score || 0), 0) || 0) /
-      (data?.length || 1),
-    [data],
+      (tasksDone || 1),
+    [data, tasksDone],
   );
 
   return (
