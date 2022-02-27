@@ -23,7 +23,7 @@ export const AppRouter: FC = () => (
       <Route
         path="/tasks-management"
         element={
-          <PrivateRoute roles={['admin']}>
+          <PrivateRoute roles={['admin', 'trainer']}>
             <TaskManagement />
           </PrivateRoute>
         }

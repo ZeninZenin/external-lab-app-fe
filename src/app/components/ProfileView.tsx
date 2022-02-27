@@ -19,6 +19,22 @@ export const ProfileView: FC<{ user?: User | null }> = ({ user }) => {
     },
   );
 
+  const dataSorted = useMemo(
+    () =>
+      data?.sort(a => {
+        if (a.status === 'done') {
+          return 1;
+        }
+
+        if (a.status === 'onReview' || a.status === 'onRevision') {
+          return -1;
+        }
+
+        return 0;
+      }),
+    [data],
+  );
+
   const tasksDone = useMemo(
     () => data?.filter(x => x.status === 'done').length,
     [data],
@@ -39,7 +55,7 @@ export const ProfileView: FC<{ user?: User | null }> = ({ user }) => {
             <ListLoader />
           ) : (
             <>
-              {data?.map(score => (
+              {dataSorted?.map(score => (
                 <Box key={score?._id} mb={24} width="100%" maxWidth={700}>
                   <ProfileTaskCard score={score} refetchList={refetch} />
                 </Box>

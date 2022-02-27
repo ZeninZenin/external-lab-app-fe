@@ -20,6 +20,8 @@ import { useMutation } from 'react-query';
 import { axios } from 'src/axios';
 import { CompleteModal } from 'src/pages/trainerTasks/components/CompleteModal';
 import { Link } from 'react-router-dom';
+import { CommentOutlined } from '@ant-design/icons';
+import { TaskStatus } from 'src/types';
 
 export const StudentTaskCard: FC<{
   score: ScoreWithUsers;
@@ -88,15 +90,18 @@ export const StudentTaskCard: FC<{
               )
             }
             extra={
-              <Flex>
+              <Flex alignItems="center" mt={16}>
                 {taskScore && (
                   <Tooltip title={comment} placement="top">
-                    <Box mr={12}>
-                      <Rate allowHalf value={taskScore} disabled />
+                    <Box mr={24}>
+                      <Space size="middle">
+                        <Rate allowHalf value={taskScore} disabled />
+                        {comment && <CommentOutlined color="green" />}
+                      </Space>
                     </Box>
                   </Tooltip>
                 )}
-                <Flex alignItems="center" mr={64}>
+                <Flex alignItems="center" mr={24}>
                   <Space>
                     <Avatar>{getName(student).slice(0, 1)}</Avatar>
                     <Link to={`/profile/${student.login}`}>
@@ -126,16 +131,7 @@ export const StudentTaskCard: FC<{
                 )}`}
               />
             </p>
-            {score?.completionDate && (
-              <p>
-                <Badge
-                  status="success"
-                  text={`Completed on: ${moment(score?.completionDate).format(
-                    'DD MMMM yyyy HH:mm',
-                  )}`}
-                />
-              </p>
-            )}
+
             {score?.sendingForRevisionDate && (
               <p>
                 <Badge
@@ -153,6 +149,16 @@ export const StudentTaskCard: FC<{
                   text={`Revision done on: ${moment(
                     score?.revisionDoneDate,
                   ).format('DD MMMM yyyy HH:mm')}`}
+                />
+              </p>
+            )}
+            {score?.completionDate && (
+              <p>
+                <Badge
+                  status="success"
+                  text={`Completed on: ${moment(score?.completionDate).format(
+                    'DD MMMM yyyy HH:mm',
+                  )}`}
                 />
               </p>
             )}

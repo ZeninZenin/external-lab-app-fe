@@ -8,6 +8,7 @@ import {
   Input,
   message,
   Rate,
+  Space,
   Spin,
   Tooltip,
   Typography,
@@ -16,6 +17,7 @@ import moment from 'moment';
 import { Box, Flex } from './index';
 import { useMutation } from 'react-query';
 import { axios } from 'src/axios';
+import { CommentOutlined } from '@ant-design/icons';
 
 export const ProfileTaskCard: FC<{ score: Score; refetchList(): void }> = ({
   score,
@@ -89,7 +91,10 @@ export const ProfileTaskCard: FC<{ score: Score; refetchList(): void }> = ({
             taskScore && (
               <Tooltip title={comment} placement="top">
                 <Box mr={32}>
-                  <Rate allowHalf value={taskScore} disabled />
+                  <Space size="middle">
+                    <Rate allowHalf value={taskScore} disabled />
+                    {comment && <CommentOutlined color="green" />}
+                  </Space>
                 </Box>
               </Tooltip>
             )
