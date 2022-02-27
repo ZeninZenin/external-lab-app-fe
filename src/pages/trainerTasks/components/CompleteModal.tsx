@@ -1,6 +1,7 @@
-import { message, Modal, Rate } from 'antd';
+import { message, Modal, Rate, Input } from 'antd';
 import React, { FC, useState } from 'react';
 import { useMutation } from 'react-query';
+import { Box } from 'src/app/components';
 import { axios } from 'src/axios';
 import { ScoreWithUsers } from 'src/types/score';
 import { getName } from 'src/utils';
@@ -14,11 +15,13 @@ export const CompleteModal: FC<{
   const { task, student } = score || {};
 
   const [taskScore, setTaskScore] = useState<number>();
+  const [comment, setComment] = useState<string>('');
 
   const { mutate } = useMutation((id: string) =>
     axios.put(`/scores/complete`, {
       id,
       score: taskScore,
+      comment,
     }),
   );
 
@@ -47,6 +50,13 @@ export const CompleteModal: FC<{
     >
       <p>Please, rate this task</p>
       <Rate allowHalf value={taskScore} onChange={setTaskScore} />
+      <Box height={24} />
+      <Input.TextArea
+        rows={4}
+        placeholder={'Comment (if needed)'}
+        onChange={e => setComment(e.target.value)}
+        value={comment}
+      />
     </Modal>
   );
 };

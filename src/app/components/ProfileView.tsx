@@ -1,5 +1,5 @@
-import React, { FC } from 'react';
-import { Avatar, Col, Progress, Row, Typography } from 'antd';
+import React, { FC, useMemo } from 'react';
+import { Avatar, Col, Progress, Row, Statistic, Typography } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { Box, Flex } from './Box';
 import { useQuery } from 'react-query';
@@ -17,6 +17,18 @@ export const ProfileView: FC<{ user?: User | null }> = ({ user }) => {
     {
       enabled: !!user?._id,
     },
+  );
+
+  const tasksDone = useMemo(
+    () => data?.filter(x => x.status === 'done').length,
+    [data],
+  );
+
+  const averageScore = useMemo(
+    () =>
+      (data?.reduce((acc, item) => acc + (item.score || 0), 0) || 0) /
+      (data?.length || 1),
+    [data],
   );
 
   return (
@@ -50,7 +62,18 @@ export const ProfileView: FC<{ user?: User | null }> = ({ user }) => {
             <Box mt={48} mb={12}>
               My progress
             </Box>
-            <Progress type="dashboard" percent={75} />
+            <Progress
+              type="dashboard"
+              percent={((tasksDone || 0) / (data?.length || 1)) * 100}
+            />
+            <Box height={24} />
+            <Statistic
+              title="Tasks done"
+              value={tasksDone}
+              suffix={`/ ${data?.length}`}
+            />
+            <Box height={24} />
+            <Statistic title="Average score" value={averageScore} />
           </Flex>
         </Box>
       </Col>

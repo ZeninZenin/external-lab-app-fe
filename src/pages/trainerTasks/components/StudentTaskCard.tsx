@@ -11,6 +11,7 @@ import {
   Rate,
   Space,
   Spin,
+  Tooltip,
   Typography,
 } from 'antd';
 import moment from 'moment';
@@ -30,6 +31,7 @@ export const StudentTaskCard: FC<{
     pullRequestLink,
     student,
     score: taskScore,
+    comment,
   } = score || {};
 
   const [link, setLink] = useState('');
@@ -37,16 +39,11 @@ export const StudentTaskCard: FC<{
   const [isCompleteModalVisible, setIsCompleteModalVisible] = useState(false);
 
   const { isLoading, mutate } = useMutation((prLink: string) =>
-    axios.put(
-      pullRequestLink
-        ? '/scores/update-pull-request-link'
-        : '/scores/send-for-review',
-      {
-        studentId: student,
-        taskId: task?._id,
-        pullRequestLink: prLink,
-      },
-    ),
+    axios.put('/scores/update-pull-request-link', {
+      studentId: student,
+      taskId: task?._id,
+      pullRequestLink: prLink,
+    }),
   );
 
   const { isLoading: isSendToRevisionLoading, mutate: sendToRevision } =
@@ -93,11 +90,13 @@ export const StudentTaskCard: FC<{
             extra={
               <Flex>
                 {taskScore && (
-                  <Box mr={12}>
-                    <Rate allowHalf value={taskScore} disabled />
-                  </Box>
+                  <Tooltip title={comment} placement="top">
+                    <Box mr={12}>
+                      <Rate allowHalf value={taskScore} disabled />
+                    </Box>
+                  </Tooltip>
                 )}
-                <Flex alignItems="center" mr={32}>
+                <Flex alignItems="center" mr={64}>
                   <Space>
                     <Avatar>{getName(student).slice(0, 1)}</Avatar>
                     <Link to={`/profile/${student.login}`}>
@@ -114,7 +113,7 @@ export const StudentTaskCard: FC<{
                 <Badge
                   status="success"
                   text={`Submitted on: ${moment(score?.submissionDate).format(
-                    'DD MMMM yyyy hh:mm',
+                    'DD MMMM yyyy HH:mm',
                   )}`}
                 />
               </p>
@@ -132,7 +131,7 @@ export const StudentTaskCard: FC<{
                 <Badge
                   status="success"
                   text={`Completed on: ${moment(score?.completionDate).format(
-                    'DD MMMM yyyy hh:mm',
+                    'DD MMMM yyyy HH:mm',
                   )}`}
                 />
               </p>
@@ -143,7 +142,7 @@ export const StudentTaskCard: FC<{
                   status="processing"
                   text={`Sent on revision: ${moment(
                     score?.sendingForRevisionDate,
-                  ).format('DD MMMM yyyy hh:mm')}`}
+                  ).format('DD MMMM yyyy HH:mm')}`}
                 />
               </p>
             )}
@@ -153,7 +152,7 @@ export const StudentTaskCard: FC<{
                   status="success"
                   text={`Revision done on: ${moment(
                     score?.revisionDoneDate,
-                  ).format('DD MMMM yyyy hh:mm')}`}
+                  ).format('DD MMMM yyyy HH:mm')}`}
                 />
               </p>
             )}

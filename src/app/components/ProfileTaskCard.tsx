@@ -9,6 +9,7 @@ import {
   message,
   Rate,
   Spin,
+  Tooltip,
   Typography,
 } from 'antd';
 import moment from 'moment';
@@ -26,16 +27,22 @@ export const ProfileTaskCard: FC<{ score: Score; refetchList(): void }> = ({
     pullRequestLink,
     student,
     score: taskScore,
+    comment,
   } = score || {};
 
   const [link, setLink] = useState('');
 
   const { isLoading, mutate } = useMutation((prLink: string) =>
-    axios.put('/scores/update-pull-request-link', {
-      studentId: student,
-      taskId: task?._id,
-      pullRequestLink: prLink,
-    }),
+    axios.put(
+      pullRequestLink
+        ? '/scores/update-pull-request-link'
+        : '/scores/send-for-review',
+      {
+        studentId: student,
+        taskId: task?._id,
+        pullRequestLink: prLink,
+      },
+    ),
   );
 
   const { isLoading: isLoadingRevisionDone, mutate: revisionDone } =
@@ -80,9 +87,11 @@ export const ProfileTaskCard: FC<{ score: Score; refetchList(): void }> = ({
           }
           extra={
             taskScore && (
-              <Box mr={32}>
-                <Rate allowHalf value={taskScore} disabled />
-              </Box>
+              <Tooltip title={comment} placement="top">
+                <Box mr={32}>
+                  <Rate allowHalf value={taskScore} disabled />
+                </Box>
+              </Tooltip>
             )
           }
         >
