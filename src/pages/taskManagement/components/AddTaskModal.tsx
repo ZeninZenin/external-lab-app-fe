@@ -9,7 +9,7 @@ export const AddTaskModal: FC<{
   isVisible: boolean;
   setIsVisible(v: boolean): void;
   onAdd(): void;
-}> = ({ setIsVisible, isVisible }) => {
+}> = ({ setIsVisible, isVisible, onAdd }) => {
   const [form] = Form.useForm<Omit<Task, '_id'>>();
 
   const { mutate } = useMutation<Omit<Task, '_id'>, unknown, Omit<Task, '_id'>>(
@@ -29,7 +29,9 @@ export const AddTaskModal: FC<{
       onOk={async () => {
         const values = await form.validateFields();
 
-        await mutate(values);
+        mutate(values, {
+          onSuccess: onAdd,
+        });
 
         setIsVisible(false);
       }}

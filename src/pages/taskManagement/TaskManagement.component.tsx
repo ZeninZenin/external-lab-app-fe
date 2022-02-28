@@ -1,11 +1,12 @@
 import { useQuery } from 'react-query';
 import { axios } from 'src/axios';
 import { Box } from '../../app/components';
-import { Button, Card, Skeleton, Typography } from 'antd';
+import { Button, Typography } from 'antd';
 import { Task } from 'src/types';
 import React, { useState } from 'react';
 import { TaskCard } from './components/TaskCard';
 import { AddTaskModal } from './components/AddTaskModal';
+import { ListLoader } from '../../app/components/ListLoader';
 
 export const TaskManagement = () => {
   const { data, isLoading, refetch } = useQuery(
@@ -28,7 +29,7 @@ export const TaskManagement = () => {
         onAdd={refetch}
       />
       {isLoading ? (
-        <Skeleton active />
+        <ListLoader />
       ) : (
         <Box>
           {data?.map(task => (
