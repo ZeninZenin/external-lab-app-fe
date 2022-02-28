@@ -21,7 +21,6 @@ import { axios } from 'src/axios';
 import { CompleteModal } from 'src/pages/trainerTasks/components/CompleteModal';
 import { Link } from 'react-router-dom';
 import { CommentOutlined } from '@ant-design/icons';
-import { TaskStatus } from 'src/types';
 
 export const StudentTaskCard: FC<{
   score: ScoreWithUsers;

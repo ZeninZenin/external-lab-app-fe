@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react';
-import { Box } from '../../../app/components';
 import { Button, Card } from 'antd';
 import { VerifyModal } from './VerifyModal';
 import { User } from '../../../types';

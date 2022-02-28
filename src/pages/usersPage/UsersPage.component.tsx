@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useMutation, useQuery } from 'react-query';
+import React from 'react';
+import { useQuery } from 'react-query';
 import { Box } from 'src/app/components/Box';
 import { axios } from 'src/axios';
 import { User } from '../../types';

@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react';
 import { Layout } from 'antd';
-import { Content, Footer } from 'antd/es/layout/layout';
+import { Content } from 'antd/es/layout/layout';
 import Sider from 'antd/es/layout/Sider';
 import './App.styles.css';
 import { AppRouter, Profile, SideMenu } from './components';
