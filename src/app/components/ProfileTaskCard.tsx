@@ -1,27 +1,59 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Score } from '../../../types/score';
-import { getStatusColor, getStatusLabel } from '../../../utils';
-import { Badge, Button, Card, Input, message, Spin, Typography } from 'antd';
+import { Score } from '../../types/score';
+import { getStatusColor, getStatusLabel } from '../../utils';
+import {
+  Badge,
+  Button,
+  Card,
+  Input,
+  message,
+  Rate,
+  Space,
+  Spin,
+  Tooltip,
+  Typography,
+} from 'antd';
 import moment from 'moment';
-import { Box, Flex } from '../../../app/components';
+import { Box, Flex } from './index';
 import { useMutation } from 'react-query';
 import { axios } from 'src/axios';
+import { CommentOutlined } from '@ant-design/icons';
 
 export const ProfileTaskCard: FC<{ score: Score; refetchList(): void }> = ({
   score,
   refetchList,
 }) => {
-  const { status, task, pullRequestLink, student } = score || {};
+  const {
+    status,
+    task,
+    pullRequestLink,
+    student,
+    score: taskScore,
+    comment,
+  } = score || {};
 
   const [link, setLink] = useState('');
 
   const { isLoading, mutate } = useMutation((prLink: string) =>
-    axios.put('/scores/update-pull-request-link', {
-      studentId: student,
-      taskId: task?._id,
-      pullRequestLink: prLink,
-    }),
+    axios.put(
+      pullRequestLink
+        ? '/scores/update-pull-request-link'
+        : '/scores/send-for-review',
+      {
+        studentId: student,
+        taskId: task?._id,
+        pullRequestLink: prLink,
+      },
+    ),
   );
+
+  const { isLoading: isLoadingRevisionDone, mutate: revisionDone } =
+    useMutation(() =>
+      axios.put('/scores/revision-done', {
+        studentId: student,
+        taskId: task?._id,
+      }),
+    );
 
   useEffect(() => {
     if (pullRequestLink) {
@@ -40,7 +72,7 @@ export const ProfileTaskCard: FC<{ score: Score; refetchList(): void }> = ({
   };
 
   return (
-    <Spin spinning={isLoading}>
+    <Spin spinning={isLoading || isLoadingRevisionDone}>
       <Badge.Ribbon
         text={getStatusLabel(status)}
         color={getStatusColor(status)}
@@ -55,8 +87,19 @@ export const ProfileTaskCard: FC<{ score: Score; refetchList(): void }> = ({
               task?.name
             )
           }
+          extra={
+            taskScore && (
+              <Tooltip title={comment} placement="top">
+                <Box mr={32}>
+                  <Space size="middle">
+                    <Rate allowHalf value={taskScore} disabled />
+                    {comment && <CommentOutlined color="green" />}
+                  </Space>
+                </Box>
+              </Tooltip>
+            )
+          }
         >
-          <p>{task._id}</p>
           <p>{task?.description}</p>
           <Badge
             status="error"
@@ -85,6 +128,21 @@ export const ProfileTaskCard: FC<{ score: Score; refetchList(): void }> = ({
                 Submit
               </Button>
             </Flex>
+          )}
+          {status === 'onRevision' && (
+            <Button
+              type="primary"
+              onClick={() =>
+                revisionDone(undefined, {
+                  onSuccess: () => {
+                    message.success('Status has been updated successfully');
+                    refetchList();
+                  },
+                })
+              }
+            >
+              Revision done
+            </Button>
           )}
         </Card>
       </Badge.Ribbon>

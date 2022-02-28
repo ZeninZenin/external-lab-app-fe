@@ -4,7 +4,6 @@ import { Button, Result, Spin } from 'antd';
 import { Link } from 'react-router-dom';
 import { useUserContext } from '../../context';
 import { Flex } from './Box';
-import { isDevelopment } from '../../utils';
 
 export const PrivateRoute: FC<{
   roles: UserRole[];
@@ -13,7 +12,7 @@ export const PrivateRoute: FC<{
     userContextValue: { user },
   } = useUserContext();
 
-  if (!user && !isDevelopment) {
+  if (!user) {
     return (
       <Flex height="100%" alignItems="center" justifyContent="center">
         <Spin size="large" />
@@ -21,10 +20,10 @@ export const PrivateRoute: FC<{
     );
   }
 
-  const isUserHasAccess = roles.some(role => user?.roles.includes(role));
-  const isAdmin = user?.roles.includes('admin');
+  const isUserHasAccess = roles.some(role => user?.roles?.includes(role));
+  const isAdmin = user?.roles?.includes('admin');
 
-  if (!isUserHasAccess && !isAdmin && !isDevelopment) {
+  if (!isUserHasAccess && !isAdmin) {
     return (
       <Result
         status="403"

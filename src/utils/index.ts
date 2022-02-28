@@ -1,4 +1,4 @@
-import { TaskStatus } from '../types';
+import { TaskStatus, User } from '../types';
 import { PresetColorType } from 'antd/lib/_util/colors';
 
 export { getJWTPayload } from './jwt';
@@ -13,6 +13,8 @@ export const getStatusColor = (status: TaskStatus): PresetColorType => {
       return 'yellow';
     case 'onRevision':
       return 'red';
+    case 'revisionDone':
+      return 'yellow';
     case 'done':
       return 'green';
   }
@@ -26,7 +28,18 @@ export const getStatusLabel = (status: TaskStatus): string => {
       return 'On Review';
     case 'onRevision':
       return 'On Revision';
+    case 'revisionDone':
+      return 'Revision Done';
     case 'done':
       return 'Done';
   }
+};
+
+export const getName = (user: User) => {
+  const userName =
+    user?.lastName && user?.firstName
+      ? `${user.firstName} ${user.lastName}`
+      : user?.githubName;
+
+  return userName || user?.login;
 };

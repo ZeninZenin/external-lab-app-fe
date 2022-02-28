@@ -1,9 +1,8 @@
 import { message, Modal, Select } from 'antd';
 import React, { FC, useState } from 'react';
-import { User } from '../../../types';
+import { User } from 'src/types';
 import { useMutation, useQuery } from 'react-query';
 import { axios } from 'src/axios';
-import { Option } from 'antd/es/mentions';
 
 export const VerifyModal: FC<{
   isVisible: boolean;
@@ -22,7 +21,7 @@ export const VerifyModal: FC<{
     axios.put('/users/verify', {
       login: user.login,
       roles: 'student',
-      trainer: trainer?._id,
+      trainer: trainer,
     }),
   );
   return (
@@ -51,9 +50,9 @@ export const VerifyModal: FC<{
         placeholder={'Please select a trainer'}
       >
         {trainers?.map(v => (
-          <Option value={v._id} key={v._id}>
+          <Select.Option value={v._id} key={v._id}>
             {v.firstName} {v.lastName}
-          </Option>
+          </Select.Option>
         ))}
       </Select>
     </Modal>

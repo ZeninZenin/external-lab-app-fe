@@ -9,7 +9,7 @@ import { UserItem } from './components/UserItem';
 export const UsersPageComponent = () => {
   const { data, isLoading, refetch } = useQuery(
     'users-list',
-    async () => (await axios.get<User[]>('/users')).data,
+    async () => (await axios.get<(User & { trainer: User })[]>('/users')).data,
   );
 
   return isLoading ? (

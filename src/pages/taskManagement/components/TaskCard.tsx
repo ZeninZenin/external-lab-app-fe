@@ -44,7 +44,7 @@ export const TaskCard: FC<{ task: Task; refetchList(): void }> = ({
         }
         extra={
           <Popconfirm
-            title="Are you sure to delete this task?"
+            title="Are you sure you want to delete this task?"
             onConfirm={async () => {
               await axios.delete(`/tasks/${task._id}`);
               refetchList();
@@ -52,7 +52,7 @@ export const TaskCard: FC<{ task: Task; refetchList(): void }> = ({
             okText="Yes"
             cancelText="No"
           >
-            <Button type="primary" danger ghost onClick={() => {}}>
+            <Button type="primary" danger ghost>
               Delete
             </Button>
           </Popconfirm>

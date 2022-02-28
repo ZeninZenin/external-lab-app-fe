@@ -1,5 +1,3 @@
-import { Score } from './score';
-
 export type UserRole = 'admin' | 'trainer' | 'student' | 'guest';
 
 export interface User {
@@ -9,6 +7,6 @@ export interface User {
   firstName?: string;
   lastName?: string;
   roles: UserRole[];
-  trainer: User;
+  trainer: string;
   scores: string[];
 }

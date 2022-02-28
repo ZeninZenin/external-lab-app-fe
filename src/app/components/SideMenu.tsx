@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   CalendarOutlined,
+  ContainerOutlined,
   UnorderedListOutlined,
   UsergroupAddOutlined,
   UserOutlined,
@@ -30,6 +31,7 @@ export const SideMenu = () => {
 
   const isGuest = user?.roles?.includes('guest');
   const isAdmin = user?.roles?.includes('admin');
+  const isTrainer = user?.roles?.includes('trainer');
 
   return (
     <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
@@ -44,14 +46,19 @@ export const SideMenu = () => {
       <Menu.Item icon={<CalendarOutlined />}>
         <Link to={'/calendar'}>Calendar</Link>
       </Menu.Item>
-      {isAdmin && (
+      {(isAdmin || isTrainer) && (
         <Menu.Item icon={<UnorderedListOutlined />}>
           <Link to={'/tasks-management'}>Tasks management</Link>
         </Menu.Item>
       )}
-      {isAdmin && (
+      {(isAdmin || isTrainer) && (
         <Menu.Item icon={<UsergroupAddOutlined />}>
           <Link to={'/users-list'}>Users</Link>
+        </Menu.Item>
+      )}
+      {(isAdmin || isTrainer) && (
+        <Menu.Item icon={<ContainerOutlined />}>
+          <Link to={'/dashboard'}>Dashboard</Link>
         </Menu.Item>
       )}
     </Menu>

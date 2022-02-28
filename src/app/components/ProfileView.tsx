@@ -1,20 +1,16 @@
-import React from 'react';
-import { Avatar, Col, Progress, Row, Typography } from 'antd';
+import React, { FC, useMemo } from 'react';
+import { Avatar, Col, Progress, Row, Statistic, Typography } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { Box, Flex } from '../../app/components';
+import { Box, Flex } from './Box';
 import { useQuery } from 'react-query';
 import { axios } from 'src/axios';
-import { useUserContext } from '../../context';
 import { Score } from '../../types/score';
 
-import { ListLoader } from '../../app/components/ListLoader';
-import { ProfileTaskCard } from './components/ProfileTaskCard';
+import { ListLoader } from './ListLoader';
+import { ProfileTaskCard } from './ProfileTaskCard';
+import { User } from 'src/types';
 
-export const ProfilePage = () => {
-  const {
-    userContextValue: { user },
-  } = useUserContext();
-
+export const ProfileView: FC<{ user?: User | null }> = ({ user }) => {
   const { data, isLoading, refetch } = useQuery(
     'user-scores',
     async () => (await axios.get<Score[]>(`/users/${user?.login}/scores`)).data,
@@ -23,16 +19,43 @@ export const ProfilePage = () => {
     },
   );
 
+  const dataSorted = useMemo(
+    () =>
+      data?.sort(a => {
+        if (a.status === 'done') {
+          return 1;
+        }
+
+        if (a.status === 'onReview' || a.status === 'onRevision') {
+          return -1;
+        }
+
+        return 0;
+      }),
+    [data],
+  );
+
+  const tasksDone = useMemo(
+    () => data?.filter(x => x.status === 'done').length,
+    [data],
+  );
+
+  const averageScore = useMemo(
+    () =>
+      (data?.reduce((acc, item) => acc + (item.score || 0), 0) || 0) /
+      (tasksDone || 1),
+    [data, tasksDone],
+  );
+
   return (
     <Row>
       <Col span={18} push={6}>
         <Flex flexDirection="column">
-          <Box height={24} />
           {isLoading ? (
             <ListLoader />
           ) : (
             <>
-              {data?.map(score => (
+              {dataSorted?.map(score => (
                 <Box key={score?._id} mb={24} width="100%" maxWidth={700}>
                   <ProfileTaskCard score={score} refetchList={refetch} />
                 </Box>
@@ -55,7 +78,18 @@ export const ProfilePage = () => {
             <Box mt={48} mb={12}>
               My progress
             </Box>
-            <Progress type="dashboard" percent={75} />
+            <Progress
+              type="dashboard"
+              percent={((tasksDone || 0) / (data?.length || 1)) * 100}
+            />
+            <Box height={24} />
+            <Statistic
+              title="Tasks done"
+              value={tasksDone}
+              suffix={`/ ${data?.length}`}
+            />
+            <Box height={24} />
+            <Statistic title="Average score" value={averageScore} />
           </Flex>
         </Box>
       </Col>
