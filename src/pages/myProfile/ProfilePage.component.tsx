@@ -1,6 +1,6 @@
 import React from 'react';
 import { useUserContext } from '../../context';
-import { ProfileView } from '../../app/components/ProfileView';
+import { ProfileView } from '../../components';
 
 export const ProfilePage = () => {
   const {

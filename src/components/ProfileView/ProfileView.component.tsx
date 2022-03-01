@@ -1,13 +1,12 @@
 import React, { FC, useMemo } from 'react';
 import { Avatar, Col, Progress, Row, Statistic, Typography } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { Box, Flex } from './Box';
+import { Box, Flex } from '../../app/components';
 import { useQuery } from 'react-query';
 import { axios } from 'src/axios';
 import { Score } from '../../types/score';
-
-import { ListLoader } from './ListLoader';
-import { ProfileTaskCard } from './ProfileTaskCard';
+import { ListLoader } from '../../app/components/ListLoader';
+import { TaskCard } from './components';
 import { User } from 'src/types';
 
 export const ProfileView: FC<{ user?: User | null }> = ({ user }) => {
@@ -47,6 +46,29 @@ export const ProfileView: FC<{ user?: User | null }> = ({ user }) => {
     [data, tasksDone],
   );
 
+  const speed = useMemo(() => {
+    if (!data) {
+      return 0;
+    }
+
+    const currentDate = new Date();
+
+    const sortedByDeadlineData = [...data].sort(
+      ({ deadlineDate: deadlineDate1 }, { deadlineDate: deadlineDate2 }) =>
+        +new Date(deadlineDate1) - +new Date(deadlineDate2),
+    );
+
+    const prevTaskIndex = sortedByDeadlineData.findIndex(
+      ({ deadlineDate }) => +new Date(deadlineDate) > +currentDate,
+    );
+
+    return (
+      (sortedByDeadlineData.filter(({ status }) => status === 'done').length /
+        (prevTaskIndex + 1)) *
+      100
+    );
+  }, [data]);
+
   return (
     <Row>
       <Col span={18} push={6}>
@@ -57,7 +79,7 @@ export const ProfileView: FC<{ user?: User | null }> = ({ user }) => {
             <>
               {dataSorted?.map(score => (
                 <Box key={score?._id} mb={24} width="100%" maxWidth={700}>
-                  <ProfileTaskCard score={score} refetchList={refetch} />
+                  <TaskCard score={score} refetchList={refetch} />
                 </Box>
               ))}
             </>
@@ -76,11 +98,18 @@ export const ProfileView: FC<{ user?: User | null }> = ({ user }) => {
             </Box>
             <p>{user?.roles.join(', ')}</p>
             <Box mt={48} mb={12}>
-              My progress
+              My speed
             </Box>
             <Progress
               type="dashboard"
-              percent={((tasksDone || 0) / (data?.length || 1)) * 100}
+              percent={speed}
+              // percent={((tasksDone || 0) / (data?.length || 1)) * 100}
+              strokeColor={{
+                '0%': 'green',
+                '20%': 'yellow',
+                '80%': 'yellow',
+                '100%': 'red',
+              }}
             />
             <Box height={24} />
             <Statistic
@@ -89,7 +118,11 @@ export const ProfileView: FC<{ user?: User | null }> = ({ user }) => {
               suffix={`/ ${data?.length}`}
             />
             <Box height={24} />
-            <Statistic title="Average score" value={averageScore} />
+            <Statistic
+              title="Average score"
+              value={averageScore}
+              precision={1}
+            />
           </Flex>
         </Box>
       </Col>

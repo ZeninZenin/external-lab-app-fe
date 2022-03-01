@@ -31,7 +31,7 @@ export const App: FC = () => {
   useEffect(() => {
     if (isDevelopment && !user) {
       const getTestUser = async () => {
-        const { data } = await axios.get<User>('/users/ZeninZenin');
+        const { data } = await axios.get<User>('/users/testLogin2');
         setUserContextValue({ user: data });
       };
 
