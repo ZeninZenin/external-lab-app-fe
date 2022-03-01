@@ -5,10 +5,11 @@ import { useUserContext } from '../../context';
 import { ListLoader } from '../../app/components/ListLoader';
 import { Box, Flex } from '../../app/components';
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { StudentTaskCard } from './components/StudentTaskCard';
-import { TaskStatus } from 'src/types';
+import { TaskStatus, User } from 'src/types';
 import { StatusFilter } from 'src/pages/trainerTasks/components/StatusFilter';
+import { TrainerFilter } from 'src/pages/trainerTasks/components/TrainerFilter';
 
 export const TrainerTasks = () => {
   const {
@@ -21,15 +22,26 @@ export const TrainerTasks = () => {
     'onRevision',
   ]);
 
+  const isTrainer = user?.roles.includes('trainer');
+
+  const [trainers, setTrainers] = useState<string[]>(
+    isTrainer && user?._id ? [user?._id] : [],
+  );
+
+  useEffect(() => {
+    if (isTrainer && user?._id) {
+      setTrainers([user._id]);
+    }
+  }, [user]);
+
   const { data, isLoading, refetch } = useQuery(
     ['trainer-tasks', statuses],
     async () =>
       (
-        await axios.get<ScoreWithUsers[]>(
-          `/scores/trainer/${user?._id}?statuses=${
-            statuses ? statuses.join(',') : null
-          }`,
-        )
+        await axios.post<ScoreWithUsers[]>(`/scores/dashboard`, {
+          trainers,
+          statuses,
+        })
       ).data,
     {
       enabled: !!user?._id,
@@ -62,6 +74,10 @@ export const TrainerTasks = () => {
         <ListLoader />
       ) : (
         <>
+          <Box mb={24}>
+            Trainer filter:{' '}
+            <TrainerFilter value={trainers} onChange={setTrainers} />
+          </Box>
           <Box mb={24}>
             Status filter:{' '}
             <StatusFilter value={statuses} onChange={setStatuses} />

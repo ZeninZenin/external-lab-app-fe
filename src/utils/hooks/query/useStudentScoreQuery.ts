@@ -5,7 +5,7 @@ import { User } from '../../../types';
 
 export const QUERY_KEY_USER_SCORE = 'user-scores';
 
-export const UseStudentScoreQuery = (user: User) =>
+export const UseStudentScoreQuery = (user?: User | null) =>
   useQuery(
     QUERY_KEY_USER_SCORE,
     async () => (await axios.get<Score[]>(`/users/${user?.login}/scores`)).data,

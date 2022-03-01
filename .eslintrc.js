@@ -19,6 +19,7 @@ module.exports = {
     'no-console': 1,
     '@typescript-eslint/no-empty-function': 1,
     '@typescript-eslint/ban-types': 1,
+    '@typescript-eslint/no-unused-vars': 2,
   },
   settings: {
     react: {
