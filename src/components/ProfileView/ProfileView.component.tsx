@@ -51,7 +51,7 @@ export const ProfileView: FC<{ user?: User | null }> = ({ user }) => {
       return 0;
     }
 
-    const currentDate = new Date('2022-03-23');
+    const currentDate = new Date();
 
     const sortedByDeadlineData = [...data].sort(
       ({ deadlineDate: deadlineDate1 }, { deadlineDate: deadlineDate2 }) =>
