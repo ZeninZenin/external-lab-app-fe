@@ -6,10 +6,10 @@ import { ListLoader } from '../../app/components/ListLoader';
 import { Box, Flex } from '../../app/components';
 
 import React, { useEffect, useMemo, useState } from 'react';
-import { StudentTaskCard } from './components/StudentTaskCard';
-import { TaskStatus, User } from 'src/types';
-import { StatusFilter } from 'src/pages/trainerTasks/components/StatusFilter';
-import { TrainerFilter } from 'src/pages/trainerTasks/components/TrainerFilter';
+import { DashboardTaskCard } from 'src/pages/dashboard/components/DashboardTaskCard';
+import { TaskStatus } from 'src/types';
+import { StatusFilter } from 'src/pages/dashboard/components/StatusFilter';
+import { TrainerFilter } from 'src/pages/dashboard/components/TrainerFilter';
 
 export const TrainerTasks = () => {
   const {
@@ -32,10 +32,10 @@ export const TrainerTasks = () => {
     if (isTrainer && user?._id) {
       setTrainers([user._id]);
     }
-  }, [user]);
+  }, [isTrainer, user?._id]);
 
   const { data, isLoading, refetch } = useQuery(
-    ['trainer-tasks', statuses],
+    ['trainer-tasks', statuses, trainers],
     async () =>
       (
         await axios.post<ScoreWithUsers[]>(`/scores/dashboard`, {
@@ -84,7 +84,7 @@ export const TrainerTasks = () => {
           </Box>
           {dataSorted?.map(score => (
             <Box key={score?._id} mb={24} width="100%" maxWidth={700}>
-              <StudentTaskCard score={score} refetchList={refetch} />
+              <DashboardTaskCard score={score} refetchList={refetch} />
             </Box>
           ))}
         </>

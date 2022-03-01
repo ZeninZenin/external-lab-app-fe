@@ -1,7 +1,7 @@
 import { message, Modal, Select } from 'antd';
 import React, { FC, useState } from 'react';
 import { User } from 'src/types';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation } from 'react-query';
 import { axios } from 'src/axios';
 import { useTrainersQuery } from 'src/utils/hooks/query/useTrainersQuery';
 
