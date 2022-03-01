@@ -20,7 +20,7 @@ import { useMutation } from 'react-query';
 import { axios } from 'src/axios';
 import { CompleteModal } from 'src/pages/trainerTasks/components/CompleteModal';
 import { Link } from 'react-router-dom';
-import { CommentOutlined } from '@ant-design/icons';
+import { CommentOutlined, SelectOutlined } from '@ant-design/icons';
 
 export const StudentTaskCard: FC<{
   score: ScoreWithUsers;
@@ -108,6 +108,15 @@ export const StudentTaskCard: FC<{
                     </Link>
                   </Space>
                 </Flex>
+                {task.taskLink && (
+                  <Tooltip title="Link to task description" placement="top">
+                    <Box mr={12}>
+                      <a href={task.taskLink} target="_blank" rel="noreferrer">
+                        <SelectOutlined />
+                      </a>
+                    </Box>
+                  </Tooltip>
+                )}
               </Flex>
             }
           >
