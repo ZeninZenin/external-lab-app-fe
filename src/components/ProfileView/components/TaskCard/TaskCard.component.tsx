@@ -16,7 +16,11 @@ import moment from 'moment';
 import { Box, Flex } from '../../../../app/components';
 import { useMutation } from 'react-query';
 import { axios } from 'src/axios';
-import { ClockCircleFilled, CommentOutlined } from '@ant-design/icons';
+import {
+  ClockCircleFilled,
+  CommentOutlined,
+  SelectOutlined,
+} from '@ant-design/icons';
 import { StyledCard, StyledDeadlineText } from './TaskCard.styles';
 import { URGENT_STATUSES } from './constants';
 
@@ -95,25 +99,38 @@ export const TaskCard: FC<{ score: Score; refetchList(): void }> = ({
           <StyledCard
             isOverdue={isOverdue}
             title={
-              pullRequestLink ? (
-                <a href={pullRequestLink} target="_blank" rel="noreferrer">
-                  {task?.name}
-                </a>
-              ) : (
-                task?.name
-              )
+              <>
+                {pullRequestLink ? (
+                  <a href={pullRequestLink} target="_blank" rel="noreferrer">
+                    {task?.name}
+                  </a>
+                ) : (
+                  task?.name
+                )}
+              </>
             }
             extra={
-              taskScore && (
-                <Tooltip title={comment} placement="top">
-                  <Box mr={32}>
-                    <Space size="middle">
-                      <Rate allowHalf value={taskScore} disabled />
-                      {comment && <CommentOutlined color="green" />}
-                    </Space>
-                  </Box>
-                </Tooltip>
-              )
+              <Flex mt={12} alignItems="center">
+                {taskScore && (
+                  <Tooltip title={comment} placement="top">
+                    <Box mr={32}>
+                      <Space size="middle">
+                        <Rate allowHalf value={taskScore} disabled />
+                        {comment && <CommentOutlined color="green" />}
+                      </Space>
+                    </Box>
+                  </Tooltip>
+                )}
+                {task.taskLink && (
+                  <Tooltip title="Link to task description" placement="top">
+                    <Box>
+                      <a href={task.taskLink} target="_blank" rel="noreferrer">
+                        <SelectOutlined />
+                      </a>
+                    </Box>
+                  </Tooltip>
+                )}
+              </Flex>
             }
           >
             <p>{task?.description}</p>

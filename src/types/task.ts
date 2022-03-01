@@ -3,6 +3,8 @@ export interface Task {
   name: string;
   description: string;
   deadline: string;
+  taskLink: string;
+  isOptional: boolean;
 }
 
 export type TaskStatus =

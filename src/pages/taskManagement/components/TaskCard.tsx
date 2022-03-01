@@ -4,6 +4,8 @@ import React, { FC, useEffect, useState } from 'react';
 import { Task } from '../../../types';
 import { axios } from '../../../axios';
 import { useMutation } from 'react-query';
+import { Box, Flex } from 'src/app/components';
+import { SelectOutlined } from '@ant-design/icons';
 
 export const TaskCard: FC<{ task: Task; refetchList(): void }> = ({
   task: taskRes,
@@ -34,13 +36,22 @@ export const TaskCard: FC<{ task: Task; refetchList(): void }> = ({
     <Spin spinning={isLoading}>
       <Card
         title={
-          <Typography.Paragraph
-            editable={{
-              onChange: name => onValueChange({ name }),
-            }}
-          >
-            {task.name}
-          </Typography.Paragraph>
+          <Flex>
+            {task.taskLink && (
+              <Box mr={18}>
+                <a href={task.taskLink} target="_blank" rel="noreferrer">
+                  <SelectOutlined />
+                </a>
+              </Box>
+            )}
+            <Typography.Paragraph
+              editable={{
+                onChange: name => onValueChange({ name }),
+              }}
+            >
+              {task.name}
+            </Typography.Paragraph>
+          </Flex>
         }
         extra={
           <Popconfirm
@@ -64,6 +75,13 @@ export const TaskCard: FC<{ task: Task; refetchList(): void }> = ({
           }}
         >
           {task.description}
+        </Typography.Paragraph>
+        <Typography.Paragraph
+          editable={{
+            onChange: taskLink => onValueChange({ taskLink }),
+          }}
+        >
+          {task.taskLink}
         </Typography.Paragraph>
         <p>
           Deadline:{' '}
