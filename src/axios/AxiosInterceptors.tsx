@@ -4,14 +4,11 @@ import { axios } from './index';
 import { URL_GITHUB_OAUTH } from '../constants';
 import { useUserContext } from '../context';
 import { AxiosRequestHeaders } from 'axios';
-import { isDevelopment } from '../utils';
 
 export const AxiosInterceptors: FC = () => {
   const { setUserContextValue } = useUserContext();
 
   useEffect(() => {
-    if (isDevelopment) return;
-
     const id = axios.interceptors.response.use(noop, res => {
       if (res.response.status === '401') {
         localStorage.removeItem('token');
