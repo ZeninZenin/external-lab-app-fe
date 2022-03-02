@@ -1,4 +1,3 @@
-import noop from 'lodash-es/noop';
 import { FC, useEffect } from 'react';
 import { axios } from './index';
 import { URL_GITHUB_OAUTH } from '../constants';
@@ -9,13 +8,16 @@ export const AxiosInterceptors: FC = () => {
   const { setUserContextValue } = useUserContext();
 
   useEffect(() => {
-    const id = axios.interceptors.response.use(noop, res => {
-      if (res.response.status === 401) {
-        localStorage.removeItem('token');
-        setUserContextValue(prevState => ({ ...prevState, user: null }));
-        window.location.assign(URL_GITHUB_OAUTH);
-      }
-    });
+    const id = axios.interceptors.response.use(
+      res => res,
+      res => {
+        if (res.response.status === 401) {
+          localStorage.removeItem('token');
+          setUserContextValue(prevState => ({ ...prevState, user: null }));
+          window.location.assign(URL_GITHUB_OAUTH);
+        }
+      },
+    );
 
     return () => {
       axios.interceptors.request.eject(id);
@@ -38,5 +40,6 @@ export const AxiosInterceptors: FC = () => {
       axios.interceptors.request.eject(id);
     };
   }, []);
+
   return null;
 };
