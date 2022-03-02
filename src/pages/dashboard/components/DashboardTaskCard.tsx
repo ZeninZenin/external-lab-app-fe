@@ -18,11 +18,12 @@ import moment from 'moment';
 import { Box, Flex } from 'src/app/components';
 import { useMutation } from 'react-query';
 import { axios } from 'src/axios';
-import { CompleteModal } from 'src/pages/trainerTasks/components/CompleteModal';
+import { CompleteTaskModal } from 'src/pages/dashboard/components/CompleteTaskModal';
 import { Link } from 'react-router-dom';
 import { CommentOutlined, SelectOutlined } from '@ant-design/icons';
+import { UpdateDeadlineModal } from 'src/pages/dashboard/components/UpdateDeadlineModal';
 
-export const StudentTaskCard: FC<{
+export const DashboardTaskCard: FC<{
   score: ScoreWithUsers;
   refetchList(): void;
 }> = ({ score, refetchList }) => {
@@ -38,6 +39,8 @@ export const StudentTaskCard: FC<{
   const [link, setLink] = useState('');
 
   const [isCompleteModalVisible, setIsCompleteModalVisible] = useState(false);
+  const [isUpdateDeadlineModalVisible, setIsUpdateDeadlineModalVisible] =
+    useState(false);
 
   const { isLoading, mutate } = useMutation((prLink: string) =>
     axios.put('/scores/update-pull-request-link', {
@@ -139,6 +142,18 @@ export const StudentTaskCard: FC<{
                 )}`}
               />
             </p>
+            {score?.deadlineDate !== task?.deadline && (
+              <p>
+                <Tooltip title={score.deadlineChangeComment} placement="right">
+                  <Badge
+                    status="error"
+                    text={`Deadline changed to: ${moment(
+                      score?.deadlineDate,
+                    ).format('DD MMMM yyyy')}`}
+                  />
+                </Tooltip>
+              </p>
+            )}
 
             {score?.sendingForRevisionDate && (
               <p>
@@ -181,52 +196,59 @@ export const StudentTaskCard: FC<{
                 {link}
               </Typography.Paragraph>
             )}
-            {status === 'onReview' && (
-              <Space>
+            <Space>
+              {(status === 'revisionDone' || status === 'onReview') && (
                 <Button
                   type="primary"
-                  color="green"
                   onClick={() => setIsCompleteModalVisible(true)}
                 >
                   Complete
                 </Button>
-
-                <Popconfirm
-                  title="Are sure you want to send to revision?"
-                  onConfirm={() => {
-                    sendToRevision(undefined, {
-                      onSuccess: () => {
-                        message.success('Task has been send to revision');
-                        refetchList();
-                      },
-                    });
-                  }}
-                  okText="Yes"
-                  cancelText="No"
+              )}
+              {status === 'onReview' && (
+                <>
+                  <Popconfirm
+                    title="Are sure you want to send to revision?"
+                    onConfirm={() => {
+                      sendToRevision(undefined, {
+                        onSuccess: () => {
+                          message.success('Task has been send to revision');
+                          refetchList();
+                        },
+                      });
+                    }}
+                    okText="Yes"
+                    cancelText="No"
+                  >
+                    <Button type="primary" danger>
+                      Send to revision
+                    </Button>
+                  </Popconfirm>
+                </>
+              )}
+              {status !== 'done' && (
+                <Button
+                  type="default"
+                  onClick={() => setIsUpdateDeadlineModalVisible(true)}
                 >
-                  <Button type="primary" danger>
-                    Send to revision
-                  </Button>
-                </Popconfirm>
-              </Space>
-            )}
-            {status === 'revisionDone' && (
-              <Button
-                type="primary"
-                color="green"
-                onClick={() => setIsCompleteModalVisible(true)}
-              >
-                Complete
-              </Button>
-            )}
+                  Update deadline
+                </Button>
+              )}
+            </Space>
           </Card>
         </Badge.Ribbon>
       </Spin>
-      <CompleteModal
+      <CompleteTaskModal
         score={score}
         refetchList={refetchList}
         isVisible={isCompleteModalVisible}
         setIsVisible={setIsCompleteModalVisible}
+      />
+      <UpdateDeadlineModal
+        score={score}
+        refetchList={refetchList}
+        isVisible={isUpdateDeadlineModalVisible}
+        setIsVisible={setIsUpdateDeadlineModalVisible}
       />
     </>
   );

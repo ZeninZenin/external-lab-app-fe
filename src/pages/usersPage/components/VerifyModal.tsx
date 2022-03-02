@@ -1,8 +1,9 @@
 import { message, Modal, Select } from 'antd';
 import React, { FC, useState } from 'react';
 import { User } from 'src/types';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation } from 'react-query';
 import { axios } from 'src/axios';
+import { useTrainersQuery } from 'src/utils/hooks/query/useTrainersQuery';
 
 export const VerifyModal: FC<{
   isVisible: boolean;
@@ -12,10 +13,7 @@ export const VerifyModal: FC<{
 }> = ({ isVisible, setIsVisible, user, refetchList }) => {
   const [trainer, setTrainer] = useState<User>();
 
-  const { data: trainers } = useQuery(
-    'trainers',
-    async () => (await axios.get<User[]>('/users/trainers')).data,
-  );
+  const { data: trainers } = useTrainersQuery();
 
   const { mutate } = useMutation(() =>
     axios.put('/users/verify', {

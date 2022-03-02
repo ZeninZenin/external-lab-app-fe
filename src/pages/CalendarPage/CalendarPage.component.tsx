@@ -6,14 +6,14 @@ import {
   Html5Outlined,
 } from '@ant-design/icons';
 import moment, { Moment } from 'moment';
-import { UseStudentScoreQuery } from '../../utils';
+import { useStudentScoreQuery } from '../../utils';
 import { useUserContext } from '../../context';
 import { User } from '../../types';
 import { CalendarData } from './CalendarPage.types';
 
 export const CalendarPage: FC = () => {
   const { userContextValue } = useUserContext();
-  const { data: scoresData } = UseStudentScoreQuery(
+  const { data: scoresData } = useStudentScoreQuery(
     userContextValue?.user as User,
   );
 

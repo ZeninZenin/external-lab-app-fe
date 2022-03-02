@@ -5,13 +5,10 @@ import { Box, Flex } from '../../app/components';
 import { ListLoader } from '../../app/components/ListLoader';
 import { TaskCard } from './components';
 import { User } from 'src/types';
-import { UseStudentScoreQuery } from '../../utils';
-import { useUserContext } from '../../context';
+import { useStudentScoreQuery } from '../../utils';
 
-export const ProfileView: FC<{ user?: User | null }> = () => {
-  const { userContextValue } = useUserContext();
-  const user = userContextValue?.user;
-  const { data, isLoading, refetch } = UseStudentScoreQuery(user as User);
+export const ProfileView: FC<{ user?: User | null }> = ({ user }) => {
+  const { data, isLoading, refetch } = useStudentScoreQuery(user as User);
 
   const dataSorted = useMemo(
     () =>
