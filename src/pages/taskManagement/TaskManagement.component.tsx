@@ -11,7 +11,7 @@ import { ListLoader } from '../../app/components/ListLoader';
 export const TaskManagement = () => {
   const { data, isLoading, refetch } = useQuery(
     'admin-tasks-list',
-    async () => (await axios.get<Task[]>('/tasks')).data,
+    async () => (await axios.get<Task[]>('/tasks'))?.data,
   );
 
   const [isModalVisible, setIsModalVisible] = useState(false);

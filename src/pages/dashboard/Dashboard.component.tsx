@@ -42,7 +42,7 @@ export const TrainerTasks = () => {
           trainers,
           statuses,
         })
-      ).data,
+      )?.data,
     {
       enabled: !!user?._id,
     },
