@@ -10,7 +10,7 @@ export const AxiosInterceptors: FC = () => {
 
   useEffect(() => {
     const id = axios.interceptors.response.use(noop, res => {
-      if (res.response.status === '401') {
+      if (res.response.status === 401) {
         localStorage.removeItem('token');
         setUserContextValue(prevState => ({ ...prevState, user: null }));
         window.location.assign(URL_GITHUB_OAUTH);
