@@ -50,6 +50,13 @@ export const AddTaskModal: FC<{
           label="Description"
           rules={[{ required: true }]}
         >
+          <Input.TextArea rows={3} />
+        </Form.Item>
+        <Form.Item
+          name="taskLink"
+          label="Task link"
+          rules={[{ required: true }]}
+        >
           <Input />
         </Form.Item>
         <Form.Item

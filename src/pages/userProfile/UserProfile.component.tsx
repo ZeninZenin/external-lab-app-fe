@@ -10,7 +10,7 @@ export const UserProfile = () => {
 
   const { data } = useQuery(
     `${login}-profile`,
-    async () => (await axios.get<User>(`/users/${login}`)).data,
+    async () => (await axios.get<User>(`/users/${login}`))?.data,
   );
 
   return <ProfileView user={data} />;

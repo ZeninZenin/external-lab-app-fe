@@ -2,21 +2,13 @@ import React, { FC, useMemo } from 'react';
 import { Avatar, Col, Progress, Row, Statistic, Typography } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { Box, Flex } from '../../app/components';
-import { useQuery } from 'react-query';
-import { axios } from 'src/axios';
-import { Score } from '../../types/score';
 import { ListLoader } from '../../app/components/ListLoader';
 import { TaskCard } from './components';
 import { User } from 'src/types';
+import { useStudentScoreQuery } from '../../utils';
 
 export const ProfileView: FC<{ user?: User | null }> = ({ user }) => {
-  const { data, isLoading, refetch } = useQuery(
-    'user-scores',
-    async () => (await axios.get<Score[]>(`/users/${user?.login}/scores`)).data,
-    {
-      enabled: !!user?._id,
-    },
-  );
+  const { data, isLoading, refetch } = useStudentScoreQuery(user as User);
 
   const dataSorted = useMemo(
     () =>

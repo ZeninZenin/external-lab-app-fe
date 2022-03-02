@@ -4,6 +4,7 @@ import { User } from 'src/types/user';
 export interface Score {
   _id: string;
   deadlineDate: string;
+  deadlineChangeComment: string;
   status: TaskStatus;
   task: Task;
   trainer: string;

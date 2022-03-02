@@ -43,3 +43,5 @@ export const getName = (user: User) => {
 
   return userName || user?.login;
 };
+
+export * from './hooks';

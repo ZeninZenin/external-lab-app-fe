@@ -1,11 +1,15 @@
 import React, { FC } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { GithubOauthCallbackPage, ProfilePage } from '../../pages';
+import {
+  CalendarPage,
+  GithubOauthCallbackPage,
+  ProfilePage,
+} from '../../pages';
 import { LoginRedirect } from './LoginRedirect';
 import { NotFoundPlaceholder } from './NotFoundPlaceholder';
 import { PrivateRoute } from './PrivateRoute';
 import { TaskManagement, UsersPageComponent, GuestPage } from '../../pages';
-import { TrainerTasks } from '../../pages/trainerTasks/TrainerTasks.component';
+import { TrainerTasks } from 'src/pages/dashboard/Dashboard.component';
 import { UserProfile } from '../../pages/userProfile';
 
 export const AppRouter: FC = () => (
@@ -56,6 +60,7 @@ export const AppRouter: FC = () => (
       <Route path="oauth">
         <Route path="github/callback" element={<GithubOauthCallbackPage />} />
       </Route>
+      <Route path="/calendar" element={<CalendarPage />} />
       <Route path="*" element={<NotFoundPlaceholder />} />
     </Routes>
     <LoginRedirect />

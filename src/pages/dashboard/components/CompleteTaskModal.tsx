@@ -6,7 +6,7 @@ import { axios } from 'src/axios';
 import { ScoreWithUsers } from 'src/types/score';
 import { getName } from 'src/utils';
 
-export const CompleteModal: FC<{
+export const CompleteTaskModal: FC<{
   isVisible: boolean;
   setIsVisible(v: boolean): void;
   score: ScoreWithUsers;
@@ -44,7 +44,7 @@ export const CompleteModal: FC<{
 
           setIsVisible(false);
         } else {
-          message.error('Please select a mentor for student first');
+          message.error('Please select score for task');
         }
       }}
     >
