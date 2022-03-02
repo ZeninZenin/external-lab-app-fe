@@ -68,6 +68,10 @@ export const TaskCard: FC<{ score: Score; refetchList(): void }> = ({
   }, [pullRequestLink]);
 
   const onUpdateLink = (link: string) => {
+    if (!link) {
+      message.error('Please provide a link');
+      return;
+    }
     setLink(link);
     mutate(link, {
       onSuccess: () => {

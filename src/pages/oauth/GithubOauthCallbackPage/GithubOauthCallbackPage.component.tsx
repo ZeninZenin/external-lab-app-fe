@@ -35,6 +35,14 @@ export const GithubOauthCallbackPage: FC = () => {
         if (user?.roles.includes('guest')) {
           navigate('/guest');
         }
+
+        if (user?.roles.includes('student')) {
+          navigate('/profile');
+        }
+
+        if (user?.roles.includes('trainer')) {
+          navigate('/dashboard');
+        }
       } catch (err) {
         setError(err as AxiosError);
       }

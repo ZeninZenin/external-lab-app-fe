@@ -22,17 +22,8 @@ export const UpdateProfileModal: FC<{
       onOk={async () => {
         const values = await form.validateFields();
 
-        if (
-          values.firstName === user?.firstName &&
-          values.lastName === user?.lastName
-        ) {
-          setIsVisible(false);
-          return;
-        }
-
         await axios.put(`/users/${user?.login}/update-name`, values);
-        localStorage.removeItem('token');
-        location.reload();
+        setIsVisible(false);
       }}
     >
       <Form
