@@ -25,11 +25,16 @@ export const GithubOauthCallbackPage: FC = () => {
 
         localStorage.setItem('token', data);
 
+        const user = getJWTPayload(data)?.user;
+
         setUserContextValue(prevState => ({
           ...prevState,
-          user: getJWTPayload(data)?.user,
+          user,
         }));
-        navigate('/guest');
+
+        if (user?.roles.includes('guest')) {
+          navigate('/guest');
+        }
       } catch (err) {
         setError(err as AxiosError);
       }
