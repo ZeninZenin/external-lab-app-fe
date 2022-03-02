@@ -1,5 +1,5 @@
 import { useUserContext } from '../../context';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { UpdateProfileModal } from '../../app/components';
 import { Result } from 'antd';
 import { useNavigate } from 'react-router';
@@ -8,13 +8,13 @@ export const GuestPage = () => {
   const { userContextValue } = useUserContext();
   const { user } = userContextValue;
   const [isEditModalVisible, setEditModalVisibleState] = useState(false);
-  const isModalShowedOnLoad = useRef(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user?.firstName && !isModalShowedOnLoad.current) {
+    if (!user) return;
+
+    if (!user.firstName) {
       setEditModalVisibleState(true);
-      isModalShowedOnLoad.current = true;
     }
 
     if (user?.roles.includes('student')) {
