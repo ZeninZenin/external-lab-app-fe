@@ -6,6 +6,14 @@ import reportWebVitals from './reportWebVitals';
 import 'antd/dist/antd.css';
 import { AppContextProvider } from './context';
 import { AxiosInterceptors } from './axios';
+import { getJWTPayload } from './utils';
+
+const user = getJWTPayload(localStorage.getItem('token'))?.user;
+const isGuest = user?.roles?.includes('guest');
+
+if (isGuest) {
+  window.addEventListener('unload', () => localStorage.removeItem('token'));
+}
 
 ReactDOM.render(
   <React.StrictMode>
