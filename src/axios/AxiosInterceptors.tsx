@@ -26,8 +26,6 @@ export const AxiosInterceptors: FC = () => {
   }, [setUserContextValue]);
 
   useEffect(() => {
-    if (isDevelopment) return;
-
     const id = axios.interceptors.request.use(config => {
       const token = localStorage.getItem('token');
 
