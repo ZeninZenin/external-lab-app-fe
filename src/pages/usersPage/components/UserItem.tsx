@@ -25,7 +25,7 @@ export const UserItem: FC<{
           )
         }
       >
-        <p>Github: {user.githubName}</p>
+        <p>Github: {user.login}</p>
         <p>Roles: {user.roles.join(', ')}</p>
         {user.trainer && (
           <p>
