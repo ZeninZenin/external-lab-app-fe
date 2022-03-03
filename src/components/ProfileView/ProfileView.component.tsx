@@ -5,15 +5,18 @@ import { Box, Flex } from '../../app/components';
 import { ListLoader } from '../../app/components/ListLoader';
 import { TaskCard } from './components';
 import { User } from 'src/types';
-import { useStudentScoreQuery } from '../../utils';
-import { extendScores, sortScores } from './utils';
+import {
+  extendScoresWithDeadlineStatuses,
+  sortExtendedScores,
+  useStudentScoreQuery,
+} from '../../utils';
 
 export const ProfileView: FC<{ user?: User | null }> = ({ user }) => {
   const { data, isLoading, refetch } = useStudentScoreQuery(user as User);
 
   const dataSorted = useMemo(() => {
-    const extendedScores = extendScores(data);
-    return sortScores(extendedScores);
+    const extendedScores = extendScoresWithDeadlineStatuses(data);
+    return sortExtendedScores(extendedScores);
   }, [data]);
 
   const tasksDone = useMemo(

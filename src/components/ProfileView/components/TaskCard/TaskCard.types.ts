@@ -1,11 +1,6 @@
-import { Score } from '../../../../types/score';
-
-export interface ExtendedScore extends Score {
-  isUrgent: boolean;
-  isOverdue: boolean;
-}
+import { ScoreWithDeadlineStatuses } from '../../../../types';
 
 export interface TaskCardProps {
-  score: ExtendedScore;
+  score: ScoreWithDeadlineStatuses;
   refetchList: () => void;
 }
