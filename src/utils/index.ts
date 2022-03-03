@@ -44,4 +44,7 @@ export const getName = (user: User) => {
   return userName || user?.login;
 };
 
+export { sortExtendedScores } from './sortExtendedScores';
+export { extendScoresWithDeadlineStatuses } from './extendScoresWithDeadlineStatuses';
+
 export * from './hooks';

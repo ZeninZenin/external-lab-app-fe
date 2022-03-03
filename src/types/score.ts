@@ -22,3 +22,10 @@ export interface ScoreWithUsers extends Omit<Score, 'student' | 'trainer'> {
   student: User;
   trainer: User;
 }
+
+export type ScoreWithDeadlineStatuses<
+  T extends Score | ScoreWithUsers = Score,
+> = T & {
+  isUrgent: boolean;
+  isOverdue: boolean;
+};

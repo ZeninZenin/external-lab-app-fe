@@ -1,15 +1,18 @@
 import { useQuery } from 'react-query';
 import { axios } from '../../axios';
-import { ScoreWithUsers } from '../../types/score';
 import { useUserContext } from '../../context';
 import { ListLoader } from '../../app/components/ListLoader';
 import { Box, Flex } from '../../app/components';
 
 import React, { useEffect, useMemo, useState } from 'react';
 import { DashboardTaskCard } from 'src/pages/dashboard/components/DashboardTaskCard';
-import { TaskStatus } from 'src/types';
+import { ScoreWithUsers, TaskStatus } from 'src/types';
 import { StatusFilter } from 'src/pages/dashboard/components/StatusFilter';
 import { TrainerFilter } from 'src/pages/dashboard/components/TrainerFilter';
+import {
+  extendScoresWithDeadlineStatuses,
+  sortExtendedScores,
+} from '../../utils';
 
 export const TrainerTasks = () => {
   const {
@@ -48,25 +51,10 @@ export const TrainerTasks = () => {
     },
   );
 
-  const dataSorted = useMemo(
-    () =>
-      data?.sort(a => {
-        if (a.status === 'done' || a.status === 'todo') {
-          return 1;
-        }
-
-        if (
-          a.status === 'onReview' ||
-          a.status === 'onRevision' ||
-          a.status === 'revisionDone'
-        ) {
-          return -1;
-        }
-
-        return 0;
-      }),
-    [data],
-  );
+  const dataSorted = useMemo(() => {
+    const extendedScores = extendScoresWithDeadlineStatuses(data);
+    return sortExtendedScores(extendedScores);
+  }, [data]);
 
   return (
     <Flex flexDirection="column">
