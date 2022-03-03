@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Score } from '../../../../types/score';
 import { getStatusColor, getStatusLabel } from '../../../../utils';
 import {
   Badge,
@@ -22,12 +21,9 @@ import {
   SelectOutlined,
 } from '@ant-design/icons';
 import { StyledCard, StyledDeadlineText } from './TaskCard.styles';
-import { URGENT_STATUSES } from './constants';
+import { TaskCardProps } from './TaskCard.types';
 
-export const TaskCard: FC<{ score: Score; refetchList(): void }> = ({
-  score,
-  refetchList,
-}) => {
+export const TaskCard: FC<TaskCardProps> = ({ score, refetchList }) => {
   const {
     status,
     task,
@@ -36,6 +32,8 @@ export const TaskCard: FC<{ score: Score; refetchList(): void }> = ({
     score: taskScore,
     comment,
     deadlineDate,
+    isOverdue,
+    isUrgent,
   } = score || {};
 
   const [link, setLink] = useState('');
@@ -80,14 +78,6 @@ export const TaskCard: FC<{ score: Score; refetchList(): void }> = ({
       },
     });
   };
-
-  const isUrgent =
-    URGENT_STATUSES.includes(status) &&
-    moment.duration(moment(deadlineDate).diff(new Date())).asDays() < 2;
-
-  const isOverdue =
-    status !== 'done' &&
-    moment.duration(moment(deadlineDate).diff(new Date())).asSeconds() <= 0;
 
   return (
     <Spin spinning={isLoading || isLoadingRevisionDone}>
