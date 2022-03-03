@@ -6,25 +6,15 @@ import { ListLoader } from '../../app/components/ListLoader';
 import { TaskCard } from './components';
 import { User } from 'src/types';
 import { useStudentScoreQuery } from '../../utils';
+import { extendScores, sortScores } from './utils';
 
 export const ProfileView: FC<{ user?: User | null }> = ({ user }) => {
   const { data, isLoading, refetch } = useStudentScoreQuery(user as User);
 
-  const dataSorted = useMemo(
-    () =>
-      data?.sort(a => {
-        if (a.status === 'done') {
-          return 1;
-        }
-
-        if (a.status === 'onReview' || a.status === 'onRevision') {
-          return -1;
-        }
-
-        return 0;
-      }),
-    [data],
-  );
+  const dataSorted = useMemo(() => {
+    const extendedScores = extendScores(data);
+    return sortScores(extendedScores);
+  }, [data]);
 
   const tasksDone = useMemo(
     () => data?.filter(x => x.status === 'done').length,
