@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  BookOutlined,
   CalendarOutlined,
   ContainerOutlined,
   UnorderedListOutlined,
@@ -49,6 +50,11 @@ export const SideMenu = () => {
       {(isAdmin || isTrainer) && (
         <Menu.Item icon={<UnorderedListOutlined />}>
           <Link to={'/tasks-management'}>Tasks management</Link>
+        </Menu.Item>
+      )}
+      {(isAdmin || isTrainer) && (
+        <Menu.Item icon={<BookOutlined />}>
+          <Link to={'/lectures-management'}>Lectures management</Link>
         </Menu.Item>
       )}
       {(isAdmin || isTrainer) && (

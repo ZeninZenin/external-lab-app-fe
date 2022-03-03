@@ -11,7 +11,7 @@ import { TaskStatus } from 'src/types';
 import { StatusFilter } from 'src/pages/dashboard/components/StatusFilter';
 import { TrainerFilter } from 'src/pages/dashboard/components/TrainerFilter';
 
-export const TrainerTasks = () => {
+export const Dashboard = () => {
   const {
     userContextValue: { user },
   } = useUserContext();
