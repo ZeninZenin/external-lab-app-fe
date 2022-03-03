@@ -14,7 +14,7 @@ import {
   sortExtendedScores,
 } from '../../utils';
 
-export const TrainerTasks = () => {
+export const Dashboard = () => {
   const {
     userContextValue: { user },
   } = useUserContext();

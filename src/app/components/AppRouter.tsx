@@ -3,14 +3,17 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import {
   CalendarPage,
   GithubOauthCallbackPage,
+  LectureManagement,
   ProfilePage,
-} from '../../pages';
+  UserProfile,
+  Dashboard,
+  TaskManagement,
+  UsersPageComponent,
+  GuestPage,
+} from 'src/pages';
 import { LoginRedirect } from './LoginRedirect';
 import { NotFoundPlaceholder } from './NotFoundPlaceholder';
 import { PrivateRoute } from './PrivateRoute';
-import { TaskManagement, UsersPageComponent, GuestPage } from '../../pages';
-import { TrainerTasks } from 'src/pages/dashboard/Dashboard.component';
-import { UserProfile } from '../../pages/userProfile';
 
 export const AppRouter: FC = () => (
   <>
@@ -29,6 +32,14 @@ export const AppRouter: FC = () => (
         element={
           <PrivateRoute roles={['admin', 'trainer']}>
             <TaskManagement />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/lectures-management"
+        element={
+          <PrivateRoute roles={['admin', 'trainer']}>
+            <LectureManagement />
           </PrivateRoute>
         }
       />
@@ -52,7 +63,7 @@ export const AppRouter: FC = () => (
         path="/dashboard"
         element={
           <PrivateRoute roles={['admin', 'trainer']}>
-            <TrainerTasks />
+            <Dashboard />
           </PrivateRoute>
         }
       />
