@@ -2,15 +2,13 @@ import React, { FC } from 'react';
 import { UserRole } from '../../types';
 import { Button, Result, Spin } from 'antd';
 import { Link } from 'react-router-dom';
-import { useUserContext } from '../../context';
 import { Flex } from './Box';
+import { useCurrentUser } from 'src/utils/hooks/query/useCurrentUser';
 
 export const PrivateRoute: FC<{
   roles: UserRole[];
 }> = ({ children, roles }) => {
-  const {
-    userContextValue: { user },
-  } = useUserContext();
+  const { user } = useCurrentUser();
 
   if (!user) {
     return (

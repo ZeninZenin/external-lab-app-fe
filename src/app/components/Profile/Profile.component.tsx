@@ -1,12 +1,11 @@
 import React, { FC, useState } from 'react';
 import { Avatar, Dropdown, Menu, Tooltip } from 'antd';
-import { useUserContext } from '../../../context';
 import { ProfileRoot, ProfileText } from './Profile.styles';
 import { UpdateProfileModal } from '../UpdateProfileModal';
+import { useCurrentUser } from 'src/utils/hooks/query/useCurrentUser';
 
 export const Profile: FC = () => {
-  const { userContextValue } = useUserContext();
-  const { user } = userContextValue;
+  const { user } = useCurrentUser();
   const [isEditModalVisible, setEditModalVisibleState] = useState(false);
 
   const userName =

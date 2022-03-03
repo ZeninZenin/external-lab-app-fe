@@ -1,12 +1,11 @@
-import { useUserContext } from '../../context';
 import React, { useEffect, useState } from 'react';
 import { UpdateProfileModal } from '../../app/components';
 import { Result } from 'antd';
 import { useNavigate } from 'react-router';
+import { useCurrentUser } from 'src/utils/hooks/query/useCurrentUser';
 
 export const GuestPage = () => {
-  const { userContextValue } = useUserContext();
-  const { user } = userContextValue;
+  const { user } = useCurrentUser();
   const [isEditModalVisible, setEditModalVisibleState] = useState(false);
   const navigate = useNavigate();
 

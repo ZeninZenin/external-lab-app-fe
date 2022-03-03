@@ -1,6 +1,5 @@
 import { useQuery } from 'react-query';
 import { axios } from '../../axios';
-import { useUserContext } from '../../context';
 import { ListLoader } from '../../app/components/ListLoader';
 import { Box, Flex } from '../../app/components';
 
@@ -13,11 +12,10 @@ import {
   extendScoresWithDeadlineStatuses,
   sortExtendedScores,
 } from '../../utils';
+import { useCurrentUser } from 'src/utils/hooks/query/useCurrentUser';
 
 export const Dashboard = () => {
-  const {
-    userContextValue: { user },
-  } = useUserContext();
+  const { user } = useCurrentUser();
 
   const [statuses, setStatuses] = useState<TaskStatus[]>([
     'onReview',

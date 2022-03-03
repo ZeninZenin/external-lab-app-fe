@@ -3,6 +3,7 @@ import { axios } from '../../axios';
 import { pick } from 'lodash-es';
 import React, { FC } from 'react';
 import { User } from '../../types';
+import { useCurrentUser } from 'src/utils/hooks/query/useCurrentUser';
 
 export const UpdateProfileModal: FC<{
   isVisible: boolean;
@@ -10,6 +11,7 @@ export const UpdateProfileModal: FC<{
   user?: User | null;
 }> = ({ setIsVisible, isVisible, user }) => {
   const [form] = Form.useForm<Pick<User, 'firstName' | 'lastName'>>();
+  const { refetch } = useCurrentUser();
 
   return (
     <Modal
@@ -24,6 +26,7 @@ export const UpdateProfileModal: FC<{
 
         await axios.put(`/users/${user?.login}/update-name`, values);
         setIsVisible(false);
+        refetch();
       }}
     >
       <Form

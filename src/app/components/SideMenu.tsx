@@ -11,7 +11,7 @@ import { Menu } from 'antd';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { ReactComponent as Logo } from 'src/assets/icons/logo.svg';
-import { useUserContext } from '../../context';
+import { useCurrentUser } from 'src/utils/hooks/query/useCurrentUser';
 
 const LogoContainer = styled.div`
   display: flex;
@@ -26,9 +26,7 @@ const LogoStyled = styled(Logo)`
 `;
 
 export const SideMenu = () => {
-  const {
-    userContextValue: { user },
-  } = useUserContext();
+  const { user } = useCurrentUser();
 
   const isGuest = user?.roles?.includes('guest');
   const isAdmin = user?.roles?.includes('admin');

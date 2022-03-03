@@ -7,6 +7,7 @@ import { TaskCard } from './components';
 import { User } from 'src/types';
 import {
   extendScoresWithDeadlineStatuses,
+  getName,
   sortExtendedScores,
   useStudentScoreQuery,
 } from '../../utils';
@@ -77,9 +78,7 @@ export const ProfileView: FC<{ user?: User | null }> = ({ user }) => {
           <Flex flexDirection="column" alignItems="center" mt={24}>
             <Avatar size={120} icon={<UserOutlined />} />
             <Box mt="4px">
-              <b>
-                {user?.firstName} {user?.lastName}
-              </b>
+              <b>{getName(user)}</b>
             </Box>
             <p>{user?.roles.join(', ')}</p>
             <Box mt={48} mb={12}>
@@ -103,11 +102,19 @@ export const ProfileView: FC<{ user?: User | null }> = ({ user }) => {
               suffix={`/ ${data?.length}`}
             />
             <Box height={24} />
+
             <Statistic
               title="Average score"
               value={averageScore}
               precision={1}
             />
+            <Box height={24} />
+            <Flex alignItems="center" flexDirection="column">
+              <Box as="span" color="rgba(0, 0, 0, 0.45)" mb="6px">
+                My trainer:
+              </Box>
+              <Box>{getName(user?.trainer)}</Box>
+            </Flex>
           </Flex>
         </Box>
       </Col>

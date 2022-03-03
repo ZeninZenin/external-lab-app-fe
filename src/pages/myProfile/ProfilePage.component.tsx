@@ -1,11 +1,9 @@
 import React from 'react';
-import { useUserContext } from '../../context';
 import { ProfileView } from '../../components';
+import { useCurrentUser } from 'src/utils/hooks/query/useCurrentUser';
 
 export const ProfilePage = () => {
-  const {
-    userContextValue: { user },
-  } = useUserContext();
+  const { user } = useCurrentUser();
 
   return <ProfileView user={user} />;
 };
