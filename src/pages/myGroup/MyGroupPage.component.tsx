@@ -26,7 +26,9 @@ export const MyGroupPageComponent = () => {
           >
             <p>
               Github:{' '}
-              <a href={`https://github.com/${user.login}/pulls`}>
+              <a
+                href={`https://github.com/${user.login}/external-courses/pulls`}
+              >
                 {user.login}
               </a>
             </p>
