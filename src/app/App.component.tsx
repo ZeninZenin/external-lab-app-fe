@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import { Layout } from 'antd';
 import { Content } from 'antd/es/layout/layout';
 import Sider from 'antd/es/layout/Sider';
@@ -8,10 +8,6 @@ import { AppHeader } from './App.styles';
 import { useLocalStorage } from 'usehooks-ts';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { useUserContext } from '../context';
-import { isDevelopment } from '../utils';
-import { axios } from '../axios';
-import { User } from '../types';
 
 const SIDER_COLLAPSED_LS_KEY = 'sider-collapsed';
 
@@ -22,22 +18,6 @@ export const App: FC = () => {
     SIDER_COLLAPSED_LS_KEY,
     false,
   );
-
-  const {
-    userContextValue: { user },
-    setUserContextValue,
-  } = useUserContext();
-
-  useEffect(() => {
-    if (isDevelopment && !user) {
-      const getTestUser = async () => {
-        const { data } = await axios.get<User>('/users/chikchirik');
-        setUserContextValue({ user: data });
-      };
-
-      getTestUser();
-    }
-  }, [setUserContextValue, user]);
 
   return (
     <QueryClientProvider client={queryClient}>

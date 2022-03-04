@@ -35,7 +35,7 @@ export const getStatusLabel = (status: TaskStatus): string => {
   }
 };
 
-export const getName = (user: User) => {
+export const getName = (user: User | null | undefined) => {
   const userName =
     user?.lastName && user?.firstName
       ? `${user.firstName} ${user.lastName}`

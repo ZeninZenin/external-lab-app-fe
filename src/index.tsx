@@ -4,7 +4,6 @@ import './index.css';
 import { App } from './app/App.component';
 import reportWebVitals from './reportWebVitals';
 import 'antd/dist/antd.css';
-import { AppContextProvider } from './context';
 import { AxiosInterceptors } from './axios';
 import { getJWTPayload } from './utils';
 
@@ -17,10 +16,8 @@ if (isGuest) {
 
 ReactDOM.render(
   <React.StrictMode>
-    <AppContextProvider>
-      <App />
-      <AxiosInterceptors />
-    </AppContextProvider>
+    <App />
+    <AxiosInterceptors />
   </React.StrictMode>,
   document.getElementById('root'),
 );

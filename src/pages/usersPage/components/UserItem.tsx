@@ -3,9 +3,10 @@ import { Button, Card } from 'antd';
 import { VerifyModal } from './VerifyModal';
 import { User } from '../../../types';
 import { Link } from 'react-router-dom';
+import { getName } from 'src/utils';
 
 export const UserItem: FC<{
-  user: User & { trainer: User };
+  user: User;
   refetchList(): void;
 }> = ({ user, refetchList }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -27,11 +28,7 @@ export const UserItem: FC<{
       >
         <p>Github: {user.login}</p>
         <p>Roles: {user.roles.join(', ')}</p>
-        {user.trainer && (
-          <p>
-            Trainer: {user.trainer.firstName} {user.trainer.lastName}
-          </p>
-        )}
+        {user.trainer && <p>Trainer: {getName(user.trainer)}</p>}
       </Card>
       <VerifyModal
         user={user}

@@ -7,14 +7,15 @@ import { Space, Spin } from 'antd';
 import './GithubOauthCallbackPage.styles.css';
 import Title from 'antd/es/typography/Title';
 import Text from 'antd/es/typography/Text';
-import { useUserContext } from '../../../context';
-import { getJWTPayload } from '../../../utils';
+import { useCurrentUser } from 'src/utils/hooks/query/useCurrentUser';
+import { getJWTPayload } from 'src/utils';
 
 export const GithubOauthCallbackPage: FC = () => {
   const [searchParams] = useSearchParams();
   const [error, setError] = useState<AxiosError>();
   const navigate = useNavigate();
-  const { setUserContextValue } = useUserContext();
+  const [login, setLogin] = useState<string>();
+  const { user } = useCurrentUser({ login });
 
   useEffect(() => {
     (async () => {
@@ -27,10 +28,7 @@ export const GithubOauthCallbackPage: FC = () => {
 
         const user = getJWTPayload(data)?.user;
 
-        setUserContextValue(prevState => ({
-          ...prevState,
-          user,
-        }));
+        setLogin(user?.login);
 
         if (user?.roles.includes('guest')) {
           navigate('/guest');
@@ -47,7 +45,7 @@ export const GithubOauthCallbackPage: FC = () => {
         setError(err as AxiosError);
       }
     })();
-  }, [navigate, searchParams, setUserContextValue]);
+  }, [navigate, searchParams, user]);
 
   return (
     <>

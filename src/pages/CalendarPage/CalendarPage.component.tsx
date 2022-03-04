@@ -1,21 +1,14 @@
 import React, { FC, useCallback, useMemo } from 'react';
 import { Calendar, CalendarProps, Tag, Tooltip } from 'antd';
-import {
-  // BookOutlined,
-  ExclamationCircleOutlined,
-  // Html5Outlined,
-} from '@ant-design/icons';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 import moment, { Moment } from 'moment';
 import { useStudentScoreQuery } from '../../utils';
-import { useUserContext } from '../../context';
-import { User } from '../../types';
 import { CalendarData } from './CalendarPage.types';
+import { useCurrentUser } from 'src/utils/hooks/query/useCurrentUser';
 
 export const CalendarPage: FC = () => {
-  const { userContextValue } = useUserContext();
-  const { data: scoresData } = useStudentScoreQuery(
-    userContextValue?.user as User,
-  );
+  const { user } = useCurrentUser();
+  const { data: scoresData } = useStudentScoreQuery(user);
 
   const calendarData = useMemo(() => {
     const scores: CalendarData[number][number][number] =

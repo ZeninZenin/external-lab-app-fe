@@ -11,7 +11,7 @@ export const VerifyModal: FC<{
   user: User;
   refetchList(): void;
 }> = ({ isVisible, setIsVisible, user, refetchList }) => {
-  const [trainer, setTrainer] = useState<User>();
+  const [trainer, setTrainer] = useState<string>();
 
   const { data: trainers } = useTrainersQuery();
 

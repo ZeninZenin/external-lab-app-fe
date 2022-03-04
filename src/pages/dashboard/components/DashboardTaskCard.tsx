@@ -105,7 +105,7 @@ export const DashboardTaskCard: FC<{
                 )}
                 <Flex alignItems="center" mr={24}>
                   <Space>
-                    <Avatar>{getName(student).slice(0, 1)}</Avatar>
+                    <Avatar>{getName(student)?.slice(0, 1)}</Avatar>
                     <Link to={`/profile/${student.login}`}>
                       {getName(student)}
                     </Link>
