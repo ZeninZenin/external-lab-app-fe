@@ -1,7 +1,6 @@
 import { useQuery } from 'react-query';
 import { axios } from '../../../axios';
-import { Score } from '../../../types/score';
-import { User } from '../../../types';
+import { Score, User } from '../../../types';
 
 export const QUERY_KEY_USER_SCORE = 'user-scores';
 
@@ -13,5 +12,6 @@ export const useStudentScoreQuery = (user: User | undefined) =>
     {
       enabled: !!user?.roles?.includes('student'),
       initialData: [],
+      placeholderData: [],
     },
   );

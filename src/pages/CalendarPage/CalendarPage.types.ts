@@ -1,13 +1,16 @@
 import { Moment } from 'moment';
-import { Score } from '../../types/score';
+
+export interface CalendarCellData {
+  type: 'deadline' | 'lecture' | 'practice';
+  date: Moment;
+  title: string;
+  name: string;
+}
 
 export interface CalendarData {
   [year: number]: {
     [month: number]: {
-      [date: number]: {
-        type: 'deadline' | 'lecture' | 'practice';
-        value: Omit<Score, 'deadlineDate'> & { deadlineDate: Moment };
-      }[];
+      [date: number]: CalendarCellData[];
     };
   };
 }

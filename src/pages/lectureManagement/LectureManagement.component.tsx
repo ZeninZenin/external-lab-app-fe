@@ -1,18 +1,13 @@
-import { useQuery } from 'react-query';
-import { axios } from 'src/axios';
 import { Box } from '../../app/components';
 import { Button, Typography } from 'antd';
-import { Lecture } from 'src/types';
 import React, { useState } from 'react';
 import { LectureCard } from 'src/pages/lectureManagement/components/LectureCard';
 import { AddLectureModal } from 'src/pages/lectureManagement/components/AddLectureModal';
 import { ListLoader } from 'src/app/components/ListLoader';
+import { UseLecturesListQuery } from '../../utils';
 
 export const LectureManagement = () => {
-  const { data, isLoading, refetch } = useQuery(
-    'lectures-list',
-    async () => (await axios.get<Lecture[]>('/lectures'))?.data,
-  );
+  const { data, isLoading, refetch } = UseLecturesListQuery();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
