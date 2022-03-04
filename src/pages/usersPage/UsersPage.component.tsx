@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useQuery } from 'react-query';
 import { Box } from 'src/app/components/Box';
 import { axios } from 'src/axios';
@@ -12,11 +12,23 @@ export const UsersPageComponent = () => {
     async () => (await axios.get<User[]>('/users'))?.data,
   );
 
+  const sortedUsers = useMemo(
+    () =>
+      [...(data || [])].sort((a, b) => {
+        if (a.roles.includes('guest') && !b.roles.includes('guest')) {
+          return -1;
+        }
+
+        return 0;
+      }),
+    [data],
+  );
+
   return isLoading ? (
     <ListLoader />
   ) : (
     <Box>
-      {data?.map(user => (
+      {sortedUsers?.map(user => (
         <Box key={user._id} mb={24}>
           <UserItem user={user} refetchList={refetch} />
         </Box>
