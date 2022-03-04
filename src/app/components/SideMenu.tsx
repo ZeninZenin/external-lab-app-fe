@@ -3,6 +3,7 @@ import {
   BookOutlined,
   CalendarOutlined,
   ContainerOutlined,
+  TeamOutlined,
   UnorderedListOutlined,
   UsergroupAddOutlined,
   UserOutlined,
@@ -58,6 +59,11 @@ export const SideMenu = () => {
       {(isAdmin || isTrainer) && (
         <Menu.Item icon={<UsergroupAddOutlined />}>
           <Link to={'/users-list'}>Users</Link>
+        </Menu.Item>
+      )}
+      {(isAdmin || isTrainer) && (
+        <Menu.Item icon={<TeamOutlined />}>
+          <Link to={'/my-group'}>My group</Link>
         </Menu.Item>
       )}
       {(isAdmin || isTrainer) && (

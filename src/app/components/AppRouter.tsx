@@ -14,6 +14,7 @@ import {
 import { LoginRedirect } from './LoginRedirect';
 import { NotFoundPlaceholder } from './NotFoundPlaceholder';
 import { PrivateRoute } from './PrivateRoute';
+import { MyGroupPageComponent } from 'src/pages/myGroup';
 
 export const AppRouter: FC = () => (
   <>
@@ -48,6 +49,14 @@ export const AppRouter: FC = () => (
         element={
           <PrivateRoute roles={['admin', 'trainer']}>
             <UsersPageComponent />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/my-group"
+        element={
+          <PrivateRoute roles={['admin', 'trainer']}>
+            <MyGroupPageComponent />
           </PrivateRoute>
         }
       />
