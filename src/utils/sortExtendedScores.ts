@@ -4,6 +4,7 @@ import {
   ScoreWithUsers,
   TaskStatus,
 } from '../types';
+import moment from 'moment';
 
 const STATUS_PRIORITY: Record<TaskStatus, number> = {
   onRevision: 0,
@@ -21,5 +22,11 @@ export const sortExtendedScores = <T extends Score | ScoreWithUsers>(
       return -1;
     }
 
-    return STATUS_PRIORITY[a.status] - STATUS_PRIORITY[b.status];
+    const statusDiff = STATUS_PRIORITY[a.status] - STATUS_PRIORITY[b.status];
+
+    if (statusDiff === 0) {
+      return moment(a.deadlineDate).diff(b.deadlineDate);
+    }
+
+    return statusDiff;
   });
