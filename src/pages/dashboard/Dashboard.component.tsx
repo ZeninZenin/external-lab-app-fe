@@ -1,4 +1,5 @@
 import { useQuery } from 'react-query';
+import { Helmet } from 'react-helmet';
 import { axios } from '../../axios';
 import { ListLoader } from '../../app/components/ListLoader';
 import { Box, Flex } from '../../app/components';
@@ -13,6 +14,8 @@ import {
   sortExtendedScores,
 } from '../../utils';
 import { useCurrentUser } from 'src/utils/hooks/query/useCurrentUser';
+
+const ONE_HOUR_MS = 60 * 60 * 1000;
 
 export const Dashboard = () => {
   const { user } = useCurrentUser();
@@ -46,6 +49,8 @@ export const Dashboard = () => {
       )?.data,
     {
       enabled: !!user?._id,
+      refetchInterval: ONE_HOUR_MS,
+      refetchIntervalInBackground: true,
     },
   );
 
@@ -55,26 +60,33 @@ export const Dashboard = () => {
   }, [data]);
 
   return (
-    <Flex flexDirection="column">
-      {isLoading ? (
-        <ListLoader />
-      ) : (
-        <>
-          <Box mb={24}>
-            Trainer filter:{' '}
-            <TrainerFilter value={trainers} onChange={setTrainers} />
-          </Box>
-          <Box mb={24}>
-            Status filter:{' '}
-            <StatusFilter value={statuses} onChange={setStatuses} />
-          </Box>
-          {dataSorted?.map(score => (
-            <Box key={score?._id} mb={24} width="100%" maxWidth={700}>
-              <DashboardTaskCard score={score} refetchList={refetch} />
+    <>
+      <Helmet>
+        <title>
+          {dataSorted?.length > 0 ? `(${dataSorted?.length}) ` : ''}Externals FE
+        </title>
+      </Helmet>
+      <Flex flexDirection="column">
+        {isLoading ? (
+          <ListLoader />
+        ) : (
+          <>
+            <Box mb={24}>
+              Trainer filter:{' '}
+              <TrainerFilter value={trainers} onChange={setTrainers} />
             </Box>
-          ))}
-        </>
-      )}
-    </Flex>
+            <Box mb={24}>
+              Status filter:{' '}
+              <StatusFilter value={statuses} onChange={setStatuses} />
+            </Box>
+            {dataSorted?.map(score => (
+              <Box key={score?._id} mb={24} width="100%" maxWidth={700}>
+                <DashboardTaskCard score={score} refetchList={refetch} />
+              </Box>
+            ))}
+          </>
+        )}
+      </Flex>
+    </>
   );
 };
