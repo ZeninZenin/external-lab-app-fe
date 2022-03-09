@@ -14,6 +14,7 @@ import {
   sortExtendedScores,
 } from '../../utils';
 import { useCurrentUser } from 'src/utils/hooks/query/useCurrentUser';
+import { MyGroupFilter } from 'src/pages/dashboard/components/MyGroupFilter';
 
 const ONE_HOUR_MS = 60 * 60 * 1000;
 
@@ -32,6 +33,8 @@ export const Dashboard = () => {
     isTrainer && user?._id ? [user?._id] : [],
   );
 
+  const [students, setStudents] = useState<string[]>();
+
   useEffect(() => {
     if (isTrainer && user?._id) {
       setTrainers([user._id]);
@@ -39,12 +42,13 @@ export const Dashboard = () => {
   }, [isTrainer, user?._id]);
 
   const { data, isLoading, refetch } = useQuery(
-    ['trainer-tasks', statuses, trainers],
+    ['trainer-tasks', statuses, trainers, students],
     async () =>
       (
         await axios.post<ScoreWithUsers[]>(`/scores/dashboard`, {
           trainers,
           statuses,
+          students: students?.length ? students : undefined,
         })
       )?.data,
     {
@@ -74,6 +78,10 @@ export const Dashboard = () => {
             <Box mb={24}>
               Trainer filter:{' '}
               <TrainerFilter value={trainers} onChange={setTrainers} />
+            </Box>
+            <Box mb={24}>
+              Student filter:{' '}
+              <MyGroupFilter value={students} onChange={setStudents} />
             </Box>
             <Box mb={24}>
               Status filter:{' '}
