@@ -49,9 +49,10 @@ export const ProfileView: FC<{ user?: User | null }> = ({ user }) => {
     );
 
     return (
-      (sortedByDeadlineData.filter(({ status }) => status === 'done').length /
+      ((sortedByDeadlineData.filter(({ status }) => status === 'done').length /
         (prevTaskIndex + 1)) *
-      100
+        100) |
+      0
     );
   }, [data]);
 
